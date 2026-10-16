@@ -36,19 +36,9 @@ Le droit de la famille, la protection de l’adulte et de l’enfant, les succes
 
 La langue se choisit en haut de la page (FR / EN) ; l’adresse `?lang=en` ouvre directement la version anglaise. L’affichage peut être réglé en mode clair, sombre ou automatique.
 
-## Mise en ligne
-
-L’outil tient dans un seul fichier, `index.html`, sans dépendance externe. Avec GitHub Pages : déposer les fichiers à la racine de la branche `main`, puis, dans *Settings > Pages*, choisir *Deploy from a branch*, la branche `main` et le dossier `/ (root)`. Le lien vers le code source s’affiche automatiquement en pied de page (art. 13 AGPL).
-
 ## Protection des données
 
 id est avocats ne collecte aucune donnée dans le cadre de l’utilisation de l’outil : les calculs sont effectués dans le navigateur et les montants saisis ne sont pas conservés. Seuls le mode d’affichage et la langue sont mémorisés dans le stockage local du navigateur (clés `idest-frais:theme` et `idest-frais:lang`). L’outil est hébergé sur GitHub, qui peut collecter certaines informations, notamment au moyen de cookies, conformément à sa propre déclaration relative à la protection des données.
-
-## Sources et tests
-
-- Bases légales, jurisprudence et choix de calcul : [SOURCES.md](SOURCES.md).
-- Correspondance article par article : [CORRESPONDANCE.md](CORRESPONDANCE.md).
-- Cas de référence à refaire après chaque modification : [CAS-DE-TEST.md](CAS-DE-TEST.md).
 
 ## Licence
 
