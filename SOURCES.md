@@ -1,6 +1,6 @@
 # Sources
 
-© 2026 id est avocats Sàrl ; texte sous licence [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/deed.fr). Version 1.3 (beta), textes consultés en octobre 2026.
+© 2026 id est avocats Sàrl ; texte sous licence [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/deed.fr). Version 1.4 (beta), textes consultés en octobre 2026.
 
 La correspondance article par article figure dans [CORRESPONDANCE.md](CORRESPONDANCE.md).
 
@@ -22,6 +22,7 @@ La correspondance article par article figure dans [CORRESPONDANCE.md](CORRESPOND
 | Texte | Utilisation dans l’outil |
 |---|---|
 | Tarif des frais judiciaires civils (TFJC, BLV 270.11.5), état au 1er janvier 2025, [LexFind](https://www.lexfind.ch/tolv/249849/fr) | Émoluments de conciliation, de décision, d’appel et de recours ; réductions ; incidents ; arbitrage ; exécution |
+| Loi vaudoise d’organisation judiciaire (LOJ, BLV 173.01) | Autorité déduite de la valeur litigieuse lorsqu’elle n’est pas choisie (juge de paix, tribunal d’arrondissement, Chambre patrimoniale cantonale) |
 | Tarif des dépens en matière civile (TDC, BLV 270.11.6), état au 1er mai 2019, [LexFind](https://www.lexfind.ch/tol/24250/fr) | Dépens de l’avocat et de l’agent d’affaires breveté, débours, avocat stagiaire, partie non représentée |
 | Rapport explicatif du Tribunal cantonal sur le tarif des dépens | Tarif horaire de référence de 300 et 350 francs, TVA en sus |
 | Loi sur la juridiction en matière de bail (LJB, BLV 173.655) | Gratuité devant le Tribunal des baux (art. 12) |

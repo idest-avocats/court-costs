@@ -1,13 +1,13 @@
 # Tableau de correspondance : tarifs et outil
 
-© 2026 id est avocats Sàrl ; texte sous licence [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/deed.fr). Version 1.3 (beta), octobre 2026.
+© 2026 id est avocats Sàrl ; texte sous licence [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/deed.fr). Version 1.4 (beta), octobre 2026.
 
 Ce tableau indique, pour chaque disposition des tarifs vaudois et genevois, si l’outil l’applique. Les statuts sont les suivants.
 
 - **Calculé** : la règle entre dans le calcul.
 - **Par analogie** : le tarif ne prévoit pas le cas ; l’outil applique la règle la plus proche et le signale.
 - **Signalé** : la règle est rappelée dans une note, sans effet sur le montant.
-- **Hors champ** : la règle n’est pas reprise.
+- **Hors champ** : la règle n’est pas reprise. Les procédures spéciales et non contentieuses, le droit de la famille et la protection de l’adulte et de l’enfant sont regroupés sur une seule ligne.
 
 Textes consultés : RTFMC (rsGE E 1 05.10, état au 23 septembre 2015), LaCC (rsGE E 1 05), TFJC (BLV 270.11.5, état au 1er janvier 2025), TDC (BLV 270.11.6, état au 1er mai 2019).
 
@@ -30,21 +30,19 @@ Textes consultés : RTFMC (rsGE E 1 05.10, état au 23 septembre 2015), LaCC (rs
 | 18 | Causes non pécuniaires : 200 à 50’000 francs | Calculé (fourchette, valeur centrale selon l’ampleur) |
 | 19 à 25 | Récusation, intervention, sûretés, simplification et suspension, décisions incidentes, ordonnances, restitution | Calculé |
 | 26, 27 | Procédure sommaire ; mémoire préventif | Calculé |
-| 28 à 34 | Droit matrimonial et procédures concernant les enfants | Hors champ |
 | 35, 37, 38, 40 | Appel et recours contre une décision finale ou provisionnelle : tarif de première instance | Calculé |
 | 36, 39, 41, 42 | Appel ou recours contre une décision incidente, une ordonnance ; retard injustifié | Calculé |
 | 43, 44 | Révision ; interprétation et rectification | Calculé |
 | 47 à 50 | Arbitrage : nomination et récusation d’arbitres, concours du juge, recours, dépôt d’une sentence | Calculé |
-| 51 à 67B | Protection de l’adulte et de l’enfant, justice de paix | Hors champ |
 | 68 à 72 | Juridiction des prud’hommes | Calculé (avec l’art. 19 al. 3 let. c LaCC) |
 | 73 à 79 | Frais d’administration des preuves | Calculé sous forme de montant saisi par l’utilisateur |
-| 80 à 83 | Émoluments de chancellerie | Hors champ |
 | 84, 85 al. 1 | Dépens, barème des affaires pécuniaires, écart de plus ou moins 10 % | Calculé |
 | 85 al. 2 | Valeur litigieuse non chiffrable : fixation libre | Par analogie (fourchette de l’art. 86) |
 | 86 | Affaires non pécuniaires : 600 à 18’000 francs | Calculé |
 | 87 | Procédures sans jugement final : un cinquième à deux tiers | Calculé (incidents, recours particuliers) |
 | 88, 89 | Procédure sommaire ; poursuite : un cinquième à deux tiers | Calculé |
 | 90 | Appel et recours : réduction d’un à deux tiers | Calculé ; par analogie pour la révision et l’interprétation |
+| 28 à 34, 51 à 67B, 80 à 83 | Droit de la famille, protection de l’adulte et de l’enfant, justice de paix, émoluments de chancellerie | Hors champ |
 
 ## Genève : loi d’application du code civil (LaCC), art. 19 à 26
 
@@ -84,24 +82,17 @@ Textes consultés : RTFMC (rsGE E 1 05.10, état au 23 septembre 2015), LaCC (rs
 | 18 à 22 | Procédure ordinaire, plusieurs parties, Tribunal des baux, causes non patrimoniales, réductions, travail | Calculé |
 | 22 al. 8 | Réduction pour les causes de plus de 500’000 francs | Hors champ |
 | 23 à 27 | Procédure simplifiée : mêmes règles | Calculé |
-| 28 à 31 | Procédure sommaire, mémoire préventif, superprovisionnelles, majoration des mesures provisionnelles | Calculé |
-| 32 | Modération d’une note d’honoraires | Hors champ |
-| 33 à 50o | Expropriation, juge de paix, successions, protection de l’adulte et de l’enfant | Hors champ |
-| 51, 52 | Décisions incidentes et sur incident : tarif sommaire ; pas d’émolument d’office | Calculé |
-| 53 à 61 | Droit matrimonial et procédures concernant les enfants | Hors champ |
+| 28 à 31 | Procédure sommaire, mémoire préventif, mesures superprovisionnelles, majoration des mesures provisionnelles, selon l’autorité compétente (juge de paix, président ou tribunal d’arrondissement, Tribunal des baux, Chambre patrimoniale cantonale, Cour civile) | Calculé ; autorité choisie ou déduite de la valeur litigieuse |
+| 51, 52 | Décisions incidentes et sur incident : tarif sommaire selon l’autorité ; pas d’émolument d’office | Calculé |
 | 62, 64 à 67 | Appel : affaires patrimoniales et non patrimoniales, mesures provisionnelles, décisions incidentes, réductions | Calculé |
-| 62 al. 3 | Expulsion du locataire | Hors champ |
-| 63 | Appel en droit matrimonial | Hors champ |
 | 68, 77 | Appel ou recours privé d’objet | Hors champ |
 | 69 al. 1, 70, 72, 73, 76 | Recours : affaires patrimoniales et non patrimoniales, valeur déterminante, retard injustifié, réductions | Calculé |
-| 69 al. 2 et 3, 75 | Recours contre une amende de tiers, en matière d’assistance judiciaire ou de modération | Hors champ |
-| 71, 74, 74a | Recours en droit matrimonial, affaires gracieuses, protection de l’adulte | Hors champ |
 | 78, 79 | Mesures provisionnelles devant l’instance d’appel ou de recours | Calculé |
 | 80, 81 | Révision ; interprétation et rectification | Calculé |
 | 82 | Exécution | Calculé |
 | 83 à 86 | Arbitrage : recours et révision, arbitres, concours du juge, dépôt d’une sentence | Calculé |
 | 87 à 92 | Frais d’administration des preuves | Calculé sous forme de montant saisi par l’utilisateur |
-| 93 à 97a | Émoluments de chancellerie | Hors champ |
+| 32 à 50o, 53 à 61, 62 al. 3, 63, 69 al. 2 et 3, 71, 74, 74a, 75, 93 à 97a | Modération, procédures spéciales et non contentieuses (expropriation, juge de paix, successions), droit de la famille, protection de l’adulte et de l’enfant, émoluments de chancellerie | Hors champ |
 
 ## Vaud : tarif des dépens en matière civile (TDC)
 
@@ -124,6 +115,10 @@ Textes consultés : RTFMC (rsGE E 1 05.10, état au 23 septembre 2015), LaCC (rs
 | 24 | Partie non représentée | Calculé |
 
 ## Choix propres à l’outil
+
+À Vaud, lorsque l’autorité compétente n’est pas choisie, l’outil la déduit de la valeur litigieuse : juge de paix jusqu’à 10’000 francs, président ou tribunal d’arrondissement jusqu’à 100’000 francs, Chambre patrimoniale cantonale au-delà ; Tribunal des baux pour le bail commercial. La Cour civile, instance cantonale unique notamment en propriété intellectuelle, doit être choisie.
+
+Les dépens en cas de succès sont calculés selon les mêmes barèmes que ceux de la partie adverse, en supposant une représentation par un avocat ; la TVA est exclue si la partie représentée est domiciliée à l’étranger.
 
 Lorsque le tarif ne fixe qu’une fourchette, la valeur centrale est placée selon l’ampleur choisie (simple, moyenne, importante), sur une échelle logarithmique. Il s’agit d’une convention de l’outil, sans base jurisprudentielle.
 

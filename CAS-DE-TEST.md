@@ -1,6 +1,6 @@
 # Cas de test
 
-Cas vérifiés avec l’outil (version 1.3). À refaire après chaque modification. Sauf mention contraire : procédure civile, partie adverse représentée par un avocat et domiciliée en Suisse (TVA incluse), aucune option. Montants en francs ; « centre » désigne la valeur centrale affichée.
+Cas vérifiés avec l’outil (version 1.6). À refaire après chaque modification. Sauf mention contraire : procédure civile, partie adverse représentée par un avocat et domiciliée en Suisse (TVA incluse), aucune option. Montants en francs ; « centre » désigne la valeur centrale affichée.
 
 Les scripts de test du moteur (129 contrôles) reprennent ces cas et les complètent.
 
@@ -58,6 +58,43 @@ Les scripts de test du moteur (129 contrôles) reprennent ces cas et les complè
 | 33 | TAF, marché de 800’000, 20 heures | émolument 5’000 à 20’000 ; dépens 4’000 à 8’000 | art. 4 et 10 FITAF |
 | 34 | Tribunal fédéral, marché de 45,9 millions | dépens centre 22’000 | TF 2C_50/2022 |
 
+## Autorité compétente (Vaud) et dépens en cas de succès
+
+| # | Données | Résultat attendu | Point contrôlé |
+|---|---|---|---|
+| 39 | Mesures provisionnelles, 50’000, autorité selon la valeur | émolument 300 à 1’600 | art. 28 TFJC, président ou tribunal d’arrondissement |
+| 40 | Cas 39, Cour civile | émolument 900 à 3’000 | art. 28 TFJC |
+| 41 | Cas 40, avec mesures superprovisionnelles | émolument 1’250 à 3’350 | art. 28 et 30 TFJC |
+| 42 | Procédure sommaire, 5’000, Chambre patrimoniale cantonale choisie | émolument maximal 3’000 (juge de paix par défaut : 800) | art. 28 TFJC |
+| 43 | Mémoire préventif, Cour civile | 350 | art. 30 TFJC |
+| 44 | Sûretés, Cour civile | émolument 900 à 3’000 | art. 51 et 28 TFJC |
+| 45 | Procédure ordinaire, 80’000, partie représentée domiciliée à l’étranger | dépens en cas de succès 3’150 à 15’750 (sans TVA) ; dépens en cas d’échec inchangés | TVA |
+| 46 | Procédure ordinaire, 80’000, partie adverse sans avocat | dépens en cas d’échec 0 ; dépens en cas de succès 3’405 à 17’026 | art. 24 TDC |
+| 47 | Genève, prud’hommes, 90’000 | dépens en cas d’échec et de succès 0 | art. 22 al. 2 LaCC |
+| 48 | Marchés publics, Genève, autorité seule partie | dépens en cas d’échec 0 ; dépens en cas de succès environ 1’500 | art. 6 RFPA, pratique |
+
+## Ensemble de la procédure
+
+| # | Données | Résultat attendu |
+|---|---|---|
+| 51 | Vaud, conciliation, 80’000, avec deux incidents de sûretés, première instance ordinaire, appel et Tribunal fédéral (jugement au fond) | frais judiciaires 14’990 ; avances successives 11’490 ; dépens 20’647 ; exposition totale environ 35’637 (23’264 à 66’816) |
+| 52 | Vaud, première instance ordinaire, 80’000, avec appel et Tribunal fédéral | exposition totale environ 30’341 ; dépens en cas de succès 17’241 |
+| 53 | Cas 52 à Genève | exposition totale environ 37’361 (appel : 5’000 de frais judiciaires et 7’184 de dépens) |
+| 54 | Option désactivée | retour à l’étape choisie seule |
+
+## Situation en cas d’échec et de succès
+
+| # | Données | Échec | Succès |
+|---|---|---|---|
+| 55 | Vaud, procédure ordinaire, 80’000, position non précisée | 15’172 (frais 7’000, dépens 8’172) | 8’172 (dépens à recevoir) |
+| 56 | Cas 55, demandeur, honoraires de 12’000 | 27’172 | 76’172 (80’000 + 8’172 − 12’000) ; part non couverte 3’828 |
+| 57 | Cas 55, défendeur, honoraires de 12’000 | 107’172 (80’000 + 27’172) | −3’828 (8’172 − 12’000) |
+| 58 | Vaud, conciliation avec première instance, appel et Tribunal fédéral, demandeur, honoraires de 40’000 | 71’241 (frais 14’000, dépens 17’241, honoraires 40’000) | 57’241 (80’000 + 17’241 − 40’000) |
+| 59 | Vaud, procédure ordinaire, 80’000, demande reconventionnelle de 30’000, honoraires de 12’000, position non précisée | 35’858 (frais 9’500, dépens 14’358, honoraires 12’000) | 2’358 ; note invitant à indiquer la position |
+| 60 | Cas 59, demandeur principal (défendeur reconventionnel) | 65’858*, dont 30’000* de demande reconventionnelle | 82’358 (80’000 + 14’358 − 12’000) ; demande reconventionnelle rejetée |
+| 61 | Cas 59, défendeur principal (demandeur reconventionnel) | 115’858 (80’000 + 35’858) ; demande reconventionnelle rejetée | 32’358* (30’000* + 14’358 − 12’000) |
+| 62 | Conciliation avec première instance ordinaire ajoutée | champ « Demande reconventionnelle » affiché | — |
+
 ## Interface
 
 | # | Contrôle | Résultat attendu |
@@ -66,5 +103,7 @@ Les scripts de test du moteur (129 contrôles) reprennent ces cas et les complè
 | 36 | Affaire non pécuniaire | champ de valeur masqué ; résumé « affaire non pécuniaire » |
 | 37 | Stade « Sûretés » | libellé « Valeur litigieuse au fond » ; champ « Ampleur de la cause » affiché |
 | 38 | Genève, assurance complémentaire | case « Votre client est l’assuré » affichée |
+| 49 | Vaud, procédure ordinaire | champ « Autorité compétente » masqué |
+| 50 | Vaud, mesures provisionnelles | champ « Autorité compétente » affiché |
 
 © 2026 id est avocats Sàrl, sous licence [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/deed.fr).

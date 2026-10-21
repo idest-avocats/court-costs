@@ -184,6 +184,26 @@ details.mini ul{margin:6px 0 0;padding-left:18px}
 .kpi small{display:block;font-size:11.5px;color:var(--muted);font-weight:400}
 .excl{font-size:12.5px;color:var(--muted);margin-top:8px}
 table.dc td.ref{white-space:normal;text-align:left;color:var(--muted);font-size:12.5px;min-width:180px}
+.outcomes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:2px 0 10px}
+.outcomes .oc:only-child,.outcomes .oc.fail:has(+ .oc[hidden]){grid-column:1 / -1}
+@media (max-width:1100px){.outcomes{grid-template-columns:1fr}}
+.oc{border:1px solid var(--line);border-radius:10px;padding:10px 12px 8px;background:var(--panel)}
+.oc.fail{border-top:4px solid var(--rose)}
+.oc.win{border-top:4px solid var(--turq)}
+.oc .total{font-size:clamp(24px,3vw,30px);margin:2px 0 2px}
+.oc.win .total{color:var(--turq)}
+.oc .range{font-size:12.5px;margin-bottom:4px}
+.oclines{list-style:none;padding:0;margin:4px 0 0;font-size:12.5px}
+.oclines li{display:flex;justify-content:space-between;gap:10px;padding:3px 0;border-bottom:1px dotted var(--line)}
+.oclines li span:last-child{white-space:nowrap;font-variant-numeric:tabular-nums}
+.oclines li.tot{font-weight:700;border-bottom:0}
+.oclines li.info{color:var(--muted);font-style:italic}
+.ocnote{font-size:11.5px;color:var(--muted);margin-top:6px;line-height:1.4}
+#pathTable{font-size:12.5px}
+#pathTable td,#pathTable th{padding-left:6px;padding-right:6px}
+.pathpanel{border-left:3px solid var(--turq);padding:2px 0 4px 12px;margin:4px 0 10px}
+.pathpanel .sub{margin:0 0 6px 26px}
+table.dc tr.main td{font-weight:700}
 </style>
 </head>
 <body>
@@ -228,59 +248,32 @@ table.dc td.ref{white-space:normal;text-align:left;color:var(--muted);font-size:
           </div>
           <label for="nature" data-i18n="lbNature"></label>
           <select id="nature"><option value="pec" data-i18n="natPec"></option><option value="nonpec" data-i18n="natNonpec"></option></select>
-          <label for="stage" data-i18n="lbStage"></label>
-          <select id="stage">
-            <optgroup data-i18n-label="ogFirst">
-              <option value="concil" data-i18n="sConcil"></option>
-              <option value="ord" data-i18n="sOrd"></option>
-              <option value="simpl" data-i18n="sSimpl"></option>
-              <option value="somm" data-i18n="sSomm"></option>
-              <option value="prov" data-i18n="sProv"></option>
-              <option value="memo" data-i18n="sMemo"></option>
-              <option value="lp" data-i18n="sLP"></option>
-              <option value="exec" data-i18n="sExec"></option>
-            </optgroup>
-            <optgroup data-i18n-label="ogInc">
-              <option value="incRecus" data-i18n="sIncRecus"></option>
-              <option value="incInterv" data-i18n="sIncInterv"></option>
-              <option value="incSuretes" data-i18n="sIncSuretes"></option>
-              <option value="incSusp" data-i18n="sIncSusp"></option>
-              <option value="incDec" data-i18n="sIncDec"></option>
-              <option value="incOrd" data-i18n="sIncOrd"></option>
-              <option value="incRestit" data-i18n="sIncRestit"></option>
-              <option value="irrecAvance" data-i18n="sIrrecAvance"></option>
-            </optgroup>
-            <optgroup data-i18n-label="ogRec">
-              <option value="appel" data-i18n="sAppel"></option>
-              <option value="recours" data-i18n="sRecours"></option>
-              <option value="appelInc" data-i18n="sAppelInc"></option>
-              <option value="recoursInc" data-i18n="sRecoursInc"></option>
-              <option value="recoursOrd" data-i18n="sRecoursOrd"></option>
-              <option value="provAppel" data-i18n="sProvAppel"></option>
-              <option value="retard" data-i18n="sRetard"></option>
-              <option value="revision" data-i18n="sRevision"></option>
-              <option value="interp" data-i18n="sInterp"></option>
-            </optgroup>
-            <optgroup data-i18n-label="ogArb">
-              <option value="arbNom" data-i18n="sArbNom"></option>
-              <option value="arbConcours" data-i18n="sArbConcours"></option>
-              <option value="arbRecours" data-i18n="sArbRecours"></option>
-              <option value="arbDepot" data-i18n="sArbDepot"></option>
-            </optgroup>
-            <optgroup data-i18n-label="ogTF">
-              <option value="tf" data-i18n="sTF"></option>
-            </optgroup>
+          <label for="inst" data-i18n="lbInst"></label>
+          <select id="inst">
+            <option value="concil" data-i18n="iConcil"></option>
+            <option value="first" data-i18n="iFirst"></option>
+            <option value="appel" data-i18n="iAppel"></option>
+            <option value="recours" data-i18n="iRecours"></option>
+            <option value="rev" data-i18n="iRev"></option>
+            <option value="tf" data-i18n="iTF"></option>
+            <option value="arb" data-i18n="iArb"></option>
           </select>
-          <div id="firstBox" hidden>
-            <label for="first" data-i18n="lbFirst"></label>
-            <select id="first">
-              <option value="ordsimpl" data-i18n="fOrdSimpl"></option>
-              <option value="somm" data-i18n="fSomm"></option>
-              <option value="prov" data-i18n="fProv"></option>
-              <option value="lp" data-i18n="fLP"></option>
-            </select>
+          <div id="ptypeBox">
+            <label for="ptype" data-i18n="lbPtype"></label>
+            <select id="ptype"></select>
           </div>
-          <label class="check" id="superBox" hidden><input type="checkbox" id="superprov"> <span data-i18n="lbSuper"></span></label>
+          <div id="vdAuthBox" hidden>
+            <label for="vdAuth" data-i18n="lbVdAuth"></label>
+            <select id="vdAuth">
+              <option value="auto" data-i18n="auAuto"></option>
+              <option value="jp" data-i18n="auJP"></option>
+              <option value="ta" data-i18n="auTA"></option>
+              <option value="cpc" data-i18n="auCPC"></option>
+              <option value="cc" data-i18n="auCC"></option>
+              <option value="tb" data-i18n="auTB"></option>
+            </select>
+            <div class="hint" data-i18n="hintVdAuth"></div>
+          </div>
           <label for="matter" data-i18n="lbMatter"></label>
           <select id="matter">
             <option value="gen" data-i18n="mGen"></option>
@@ -333,6 +326,44 @@ table.dc td.ref{white-space:normal;text-align:left;color:var(--muted);font-size:
           <select id="oppRep"><option value="avocat" data-i18n="repAvocat"></option><option value="stagiaire" data-i18n="repStagiaire"></option><option value="agent" data-i18n="repAgent"></option><option value="none" data-i18n="repNone"></option></select>
           <div class="hint" data-i18n="hintOppRep"></div>
         </div>
+        <div id="balanceBox">
+          <div id="positionBox">
+            <label for="position" data-i18n="lbPosition"></label>
+            <select id="position"><option value="" data-i18n="posNone"></option><option value="dem" data-i18n="posDem"></option><option value="def" data-i18n="posDef"></option></select>
+          </div>
+          <label for="ownFees" data-i18n="lbOwnFees"></label>
+          <input id="ownFees" type="number" min="0" step="500" inputmode="numeric" placeholder="—">
+          <div class="hint" data-i18n="hintOwnFees"></div>
+        </div>
+        <div id="pathWrap">
+          <label class="check"><input type="checkbox" id="pathOn"> <span data-i18n="lbPathOn"></span></label>
+          <div id="pathPanel" class="pathpanel" hidden>
+            <div class="hint" data-i18n="hintPath"></div>
+            <label class="check"><input type="checkbox" id="pConcil"> <span data-i18n="iConcil"></span></label>
+            <label class="check"><input type="checkbox" id="pInc"> <span data-i18n="lbPInc"></span></label>
+            <div id="pIncBox" class="sub" hidden>
+              <label for="pIncType" data-i18n="lbPIncType"></label>
+              <select id="pIncType"><option value="incSuretes" data-i18n="sIncSuretes"></option><option value="incRecus" data-i18n="sIncRecus"></option><option value="incInterv" data-i18n="sIncInterv"></option><option value="incSusp" data-i18n="sIncSusp"></option><option value="incDec" data-i18n="sIncDec"></option><option value="incOrd" data-i18n="sIncOrd"></option><option value="incRestit" data-i18n="sIncRestit"></option></select>
+              <label for="pIncN" data-i18n="lbPIncN"></label>
+              <input id="pIncN" type="number" min="1" max="20" step="1" value="1" inputmode="numeric">
+            </div>
+            <label class="check"><input type="checkbox" id="pFirst"> <span data-i18n="iFirst"></span></label>
+            <div id="pFirstBox" class="sub" hidden>
+              <label for="pFirstType" data-i18n="lbPFirstType"></label>
+              <select id="pFirstType"><option value="ord" data-i18n="sOrd"></option><option value="simpl" data-i18n="sSimpl"></option><option value="somm" data-i18n="sSomm"></option></select>
+            </div>
+            <label class="check"><input type="checkbox" id="pSecond"> <span data-i18n="lbPSecond"></span></label>
+            <div id="pSecondBox" class="sub" hidden>
+              <label for="pSecondType" data-i18n="lbPSecondType"></label>
+              <select id="pSecondType"><option value="appel" data-i18n="iAppel"></option><option value="recours" data-i18n="iRecours"></option></select>
+            </div>
+            <label class="check"><input type="checkbox" id="pTF"> <span data-i18n="iTF"></span></label>
+            <div id="pTFBox" class="sub" hidden>
+              <label for="pTfIssue" data-i18n="lbPTfIssue"></label>
+              <select id="pTfIssue"><option value="fond" data-i18n="tfFond"></option><option value="exam" data-i18n="tfExam"></option><option value="art108" data-i18n="tf108"></option></select>
+            </div>
+          </div>
+        </div>
         <div id="civilOpt">
           <label for="extra" data-i18n="lbExtra"></label>
           <input id="extra" type="number" min="0" max="50" step="1" value="0" inputmode="numeric">
@@ -351,6 +382,7 @@ table.dc td.ref{white-space:normal;text-align:left;color:var(--muted);font-size:
           <div class="hint" data-i18n="hintHours"></div>
         </div>
         <label class="check" id="abroadBox"><input type="checkbox" id="abroad"> <span data-i18n="lbAbroad"></span></label>
+        <label class="check" id="clientAbroadBox"><input type="checkbox" id="clientAbroad"> <span data-i18n="lbClientAbroad"></span></label>
         <div class="hint" id="abroadHint" data-i18n="hintAbroad"></div>
         <label class="check" id="vatBox"><input type="checkbox" id="vat"> <span data-i18n="lbVat"></span></label>
         <div class="hint" id="vatHint" data-i18n="hintVat"></div>
@@ -358,15 +390,33 @@ table.dc td.ref{white-space:normal;text-align:left;color:var(--muted);font-size:
     </form>
 
     <section class="panel result" aria-live="polite" aria-labelledby="rTitle">
-      <div class="r-label" id="rTitle" data-i18n="rTitle"></div>
-      <div class="total empty" id="rTotal"></div>
-      <div class="range" id="rRange"></div>
+      <div class="outcomes">
+        <div class="oc fail">
+          <div class="r-label" id="rTitle" data-i18n="rTitle"></div>
+          <div class="total empty" id="rTotal"></div>
+          <div class="range" id="rRange"></div>
+          <ul class="oclines" id="failLines"></ul>
+          <div class="ocnote" id="failNote" hidden></div>
+        </div>
+        <div class="oc win" id="winBox" hidden>
+          <div class="r-label" id="wTitle" data-i18n="wTitle"></div>
+          <div class="total" id="wTotal"></div>
+          <div class="range" id="wRange"></div>
+          <ul class="oclines" id="winLines"></ul>
+          <div class="ocnote" id="winNote" hidden></div>
+        </div>
+      </div>
       <div class="kpis" id="rKpis"></div>
       <div class="alerts" id="rAlerts"></div>
       <div id="rDetails" hidden>
-        <h2 data-i18n="hDetail"></h2>
+        <h2 id="hDetail" data-i18n="hDetail"></h2>
         <div class="tablewrap"><table class="dc" id="rTable"></table></div>
         <div class="excl" id="excl"></div>
+        <div id="pathOut" hidden>
+          <h2 data-i18n="hPath"></h2>
+          <div class="tablewrap"><table class="dc" id="pathTable"></table></div>
+          <div class="excl" data-i18n="pathNote"></div>
+        </div>
         <div class="copyblock">
           <div class="cb-head"><h3 data-i18n="hSummary"></h3><button type="button" class="btn small" data-copy="txtSum" data-i18n="copy"></button></div>
           <textarea id="txtSum" readonly></textarea>
@@ -438,13 +488,15 @@ const Frais = (() => {
     const v = scale(VD_SIM, vl, 11500, 0.015, 200000), x = scale(VD_SIM_X, vl, 5750, 0.0075, 100000);
     return fixed(v + extra * x, extra ? L('art. 23 et 24 TFJC', 'Art. 23 and 24 TFJC') : L('art. 23 TFJC', 'Art. 23 TFJC'));
   }
-  const vdAuth = (vl, bailC) => bailC ? 'tb' : vl <= 10000 ? 'jp' : vl <= 100000 ? 'ta' : 'cpc';
-  const VD_AUTH_TXT = () => ({ jp: L('juge de paix', 'justice of the peace'), ta: L('président ou tribunal d’arrondissement', 'district court or its president'), tb: L('Tribunal des baux', 'Tenancy Court'), cpc: L('Chambre patrimoniale cantonale', 'Chambre patrimoniale cantonale') });
+  let AUTH = null; // autorité vaudoise choisie : jp | ta | tb | cpc | cc
+  const vdAuth = (vl, bailC) => AUTH || (bailC ? 'tb' : vl <= 10000 ? 'jp' : vl <= 100000 ? 'ta' : 'cpc');
+  const T28 = { jp: [150, 800], ta: [300, 1600], tb: [300, 1600], cpc: [900, 3000], cc: [900, 3000] };
+  const VD_AUTH_TXT = () => ({ jp: L('juge de paix', 'justice of the peace'), ta: L('président ou tribunal d’arrondissement', 'district court or its president'), tb: L('Tribunal des baux', 'Tenancy Court'), cpc: L('Chambre patrimoniale cantonale', 'Chambre patrimoniale cantonale'), cc: L('Cour civile du Tribunal cantonal', 'Civil Court of the Cantonal Court') });
   function vdSomm(vl, bailC) {
-    const a = vdAuth(vl, bailC), T = { jp: [150, 800], ta: [300, 1600], tb: [300, 1600], cpc: [900, 3000] }[a];
+    const a = vdAuth(vl, bailC), T = T28[a];
     return R(T[0], T[1], L(`art. 28 TFJC, ${VD_AUTH_TXT()[a]}`, `Art. 28 TFJC, ${VD_AUTH_TXT()[a]}`), { auth: a });
   }
-  const vdSuper = a => ({ jp: 100, ta: 200, tb: 200, cpc: 350 }[a]);
+  const vdSuper = a => ({ jp: 100, ta: 200, tb: 200, cpc: 350, cc: 350 }[a]);
   const vdAppel = vl => fixed(Math.min(50000, (vl <= 30000 ? 600 : 1000) + vl * 0.01), L('art. 62 TFJC', 'Art. 62 TFJC'));
   const vdRecours = vl => fixed(vl <= 2000 ? 100 : vl <= 5000 ? 200 : vl <= 10000 ? 400 : Math.min(20000, 300 + vl * 0.01), L('art. 69 al. 1 TFJC', 'Art. 69 para. 1 TFJC'));
 
@@ -575,7 +627,14 @@ const Frais = (() => {
       notes.push('tfMP');
     }
     notes.push(authOnly ? 'mpAuthOnly' : 'mpBidder');
-    return finish(fj, avance, dep, notes, 0);
+    // En cas de succès, le soumissionnaire représenté obtient des dépens selon le même tarif
+    let gain = dep;
+    if (authOnly) {
+      if (p.auth === 'ge') gain = R(200, 10000, L('art. 6 RFPA ; valeur centrale selon la pratique', 'Art. 6 RFPA; central value from practice'), { mid: vl > 100000000 ? 8000 : 1500 });
+      else if (p.auth === 'taf') { const h = Math.max(0, p.hours || 0); gain = R(h * 200, h * 400, L(`art. 10 al. 2 FITAF, ${h} heures à 200–400 francs`, `Art. 10 para. 2 FITAF, ${h} hours at CHF 200–400`), { mid: h * 300 }); }
+      else if (p.auth === 'tf') gain = tfScenario(vl, p.tfIssue, false, []).dep;
+    }
+    return finish(fj, avance, dep, notes, 0, gain);
   }
 
   // ---------- Procédure civile ----------
@@ -635,6 +694,7 @@ const Frais = (() => {
   function compute(p) {
     LG = p.lang === 'en' ? 'en' : 'fr';
     const notes = [], m = p.matter || 'gen', np = p.nature === 'nonpec', a = p.amp || 'moy';
+    AUTH = p.canton === 'VD' && p.vdAuth && T28[p.vdAuth] ? p.vdAuth : null;
     const vl = np ? 0 : p.vl, reconv = np ? 0 : Math.max(0, p.reconv || 0), evidence = Math.max(0, p.evidence || 0);
     const st = p.stage, second = st === 'appel' || st === 'recours';
     const first = second ? p.first : null;
@@ -648,9 +708,9 @@ const Frais = (() => {
       if (!np) notes.push(vl < 15000 ? 'tf15' : vl < 30000 ? 'tf30' : 'tfInfo');
       if (reduced) notes.push('tfTrav');
       if (m === 'free' || m === 'conso' || bailH || bailC || assLAMal || assLAA) notes.push('tfFree');
-      let dep = s.dep;
+      let dep = s.dep; const gain = s.dep;
       if (dep.max > 0 && p.oppRep === 'none') { dep = zero(L('pas de dépens pour une partie non représentée, sauf frais indispensables (art. 1 du règlement sur les dépens devant le TF)', 'no party costs for an unrepresented party, save for indispensable expenses (Art. 1 of the Federal Supreme Court party costs regulation)')); notes.push('noRepTF'); }
-      return finish(s.fj, s.avance, dep, notes, 0);
+      return finish(s.fj, s.avance, dep, notes, 0, gain);
     }
     if (SPECIAL.includes(st)) return computeSpecial(p, notes);
     if (st === 'appel' && first === 'lp') return { error: 'appelLP' };
@@ -661,19 +721,19 @@ const Frais = (() => {
     // 1. Émolument de base
     let fj;
     if (VD && np) {
-      const au = bailC ? 'tb' : 'ta', T28 = { ta: [300, 1600], tb: [300, 1600] }[au];
+      const au = AUTH || (bailC ? 'tb' : 'ta'), T28a = T28[au];
       if (st === 'concil') fj = rng(150, 5000, L('art. 16 TFJC', 'Art. 16 TFJC'), a);
       else if (st === 'ord') fj = rng(3750, 300000, L('art. 21 TFJC', 'Art. 21 TFJC'), a);
       else if (st === 'simpl') fj = rng(360, 200000, L('art. 26 TFJC', 'Art. 26 TFJC'), a);
-      else if (st === 'somm' || st === 'prov') fj = rng(T28[0], T28[1], L(`art. 28 TFJC, ${VD_AUTH_TXT()[au]}`, `Art. 28 TFJC, ${VD_AUTH_TXT()[au]}`), a, { auth: au });
+      else if (st === 'somm' || st === 'prov') fj = rng(T28a[0], T28a[1], L(`art. 28 TFJC, ${VD_AUTH_TXT()[au]}`, `Art. 28 TFJC, ${VD_AUTH_TXT()[au]}`), a, { auth: au });
       else if (st === 'memo') fj = fixed(vdSuper(au), L(`art. 30 TFJC, ${VD_AUTH_TXT()[au]}`, `Art. 30 TFJC, ${VD_AUTH_TXT()[au]}`));
       else if (st === 'lp') fj = oelp48(0);
       else if (st === 'appel') fj = first === 'prov' ? fixed(800, L('art. 65 al. 1 TFJC', 'Art. 65 para. 1 TFJC')) : rng(800, 6000, L('art. 64 al. 1 TFJC', 'Art. 64 para. 1 TFJC'), a);
       else fj = rng(100, 20000, L('art. 72 TFJC', 'Art. 72 TFJC'), a);
       if (st === 'prov' && p.superprov) { const sp = vdSuper(fj.auth); fj = mapR(fj, x => x + sp, fj.ref + L(` ; mesures superprovisionnelles : ${sp} francs (art. 30 TFJC)`, `; ex parte measures: CHF ${sp} (Art. 30 TFJC)`)); }
-      if (st === 'prov') notes.push('vdProv5');
+      if (st === 'prov') notes.push(au === 'cpc' || au === 'cc' ? 'vdProv30' : au === 'jp' ? 'vdProvJP' : 'vdProv5');
       if (st === 'appel' && first !== 'prov') notes.push('vdNP64');
-      if (['somm', 'prov', 'memo'].includes(st)) notes.push('vdNPauth');
+      if (['somm', 'prov', 'memo'].includes(st) && !AUTH) notes.push('vdNPauth');
     } else if (VD) {
       const vlF = withReconv ? vl + reconv : vl;
       if (st === 'concil') fj = vdConc(vl);
@@ -684,7 +744,7 @@ const Frais = (() => {
       else if (st === 'appel') fj = first === 'prov' ? fixed(800, L('art. 65 al. 1 TFJC', 'Art. 65 para. 1 TFJC')) : vdAppel(vl);
       else fj = first === 'lp' ? oelp61(vl) : vdRecours(vl);
       if (st === 'prov' && p.superprov) { const sp = vdSuper(fj.auth); fj = R(fj.min + sp, fj.max + sp, fj.ref + L(` ; mesures superprovisionnelles : ${sp} francs (art. 30 TFJC)`, `; ex parte measures: CHF ${sp} (Art. 30 TFJC)`), { auth: fj.auth }); }
-      if (st === 'prov') notes.push(fj.auth === 'cpc' ? 'vdProv30' : fj.auth === 'jp' ? 'vdProvJP' : 'vdProv5');
+      if (st === 'prov') notes.push(fj.auth === 'cpc' || fj.auth === 'cc' ? 'vdProv30' : fj.auth === 'jp' ? 'vdProvJP' : 'vdProv5');
       if (st === 'appel' && first === 'prov') notes.push('vdAppelProv');
       if (withReconv) notes.push('reconvVD');
     } else {
@@ -767,7 +827,6 @@ const Frais = (() => {
     if (st === 'concil') dep = zero(L('art. 113 al. 1 CPC', 'Art. 113 para. 1 CPC'));
     else if (st === 'memo') { dep = zero(L('en règle générale aucun dépens pour un mémoire préventif', 'as a rule no party costs for a protective brief')); notes.push('memoDep'); }
     else if (!VD && trav) dep = zero(L('art. 22 al. 2 LaCC (juridiction des prud’hommes)', 'Art. 22 para. 2 LaCC (employment courts)'));
-    else if (insuredGE) { dep = zero(L('art. 22 al. 3 LaCC : pas de dépens à la charge de l’assuré', 'Art. 22 para. 3 LaCC: no party costs payable by the insured')); notes.push('assInsured'); }
     else if (VD && bailH && !second) { dep = R(0, 1500, L('art. 12 al. 3 LJB et art. 16 al. 1 TDC (seulement en cas de témérité), débours inclus', 'Art. 12 para. 3 LJB and Art. 16 para. 1 TDC (only for vexatious conduct), disbursements included'), { mid: 0 }); noVat = true; }
     else if (VD) {
       const key = st === 'ord' ? 'ord' : st === 'simpl' ? 'simpl' : (st === 'somm' || st === 'prov' || st === 'lp') ? 'somm' : st === 'appel' ? 'appel' : 'recours';
@@ -778,6 +837,8 @@ const Frais = (() => {
       dep = np ? geDepensNP(kind, a) : geDepens(kind, vlDep);
       if (['endEarly', 'endLate', 'irrecEarly', 'irrecLate'].includes(iss) && dep.max > 0) { dep = R(dep.min / 3, dep.max, dep.ref + L(' ; peut être réduit (art. 23 al. 2 LaCC)', '; may be reduced (Art. 23 para. 2 LaCC)'), { mid: midOf(dep) * 2 / 3 }); notes.push('ge23'); }
     }
+    const gain = finalizeDep(dep, Object.assign({}, p, { oppRep: 'avocat', abroad: !!p.clientAbroad }), VD, [], { noVat, ord: st === 'ord' });
+    if (insuredGE) { dep = zero(L('art. 22 al. 3 LaCC : pas de dépens à la charge de l’assuré', 'Art. 22 para. 3 LaCC: no party costs payable by the insured')); notes.push('assInsured'); }
     dep = finalizeDep(dep, p, VD, notes, { noVat, ord: st === 'ord' });
 
     // 7. Avertissements de procédure
@@ -786,24 +847,25 @@ const Frais = (() => {
       if (st === 'simpl' && vl > 30000 && !trav && !bailH && !bailC) notes.push('simplLarge');
       if (st === 'appel' && vl < 10000 && first !== 'prov') notes.push('appelSmall');
       if (st === 'concil' && vl >= 100000) notes.push('concil100k');
-      if (VD && (st === 'somm' || st === 'prov' || st === 'memo') && !bailC) notes.push('vdAuthority');
+      if (VD && (st === 'somm' || st === 'prov' || st === 'memo') && !bailC && !AUTH) notes.push('vdAuthority');
     }
     if (p.foreign && VD) notes.push('vdForeign');
     if (evidence) notes.push('evidence');
-    return finish(fj, avance, dep, notes, evidence);
+    return finish(fj, avance, dep, notes, evidence, gain);
   }
 
   // ---------- Incidents, voies de recours particulières, exécution, arbitrage ----------
   function computeSpecial(p, notes) {
     const st = p.stage, VD = p.canton === 'VD', np = p.nature === 'nonpec', a = p.amp || 'moy';
+    AUTH = VD && p.vdAuth && T28[p.vdAuth] ? p.vdAuth : null;
     const vl = np ? 0 : p.vl, m = p.matter || 'gen', bailC = m === 'bailC', evidence = Math.max(0, p.evidence || 0);
     const INC = ['incRecus', 'incInterv', 'incSuretes', 'incSusp', 'incDec', 'incRestit'];
     let fj, depKind, issueKey = null, avHalf = false, second = false;
     if (VD) {
-      const au = np ? (bailC ? 'tb' : 'ta') : vdAuth(vl, bailC);
-      const T28 = { jp: [150, 800], ta: [300, 1600], tb: [300, 1600], cpc: [900, 3000] }[au];
+      const au = np ? (AUTH || (bailC ? 'tb' : 'ta')) : vdAuth(vl, bailC);
+      const T28a = T28[au];
       const recoursSc = () => np ? rng(100, 20000, L('art. 72 TFJC', 'Art. 72 TFJC'), a) : vdRecours(vl);
-      if (INC.includes(st)) { fj = rng(T28[0], T28[1], L(`art. 51 et 28 TFJC, ${VD_AUTH_TXT()[au]}`, `Art. 51 and 28 TFJC, ${VD_AUTH_TXT()[au]}`), a); depKind = 'inc'; issueKey = 'somm'; notes.push('vdInc'); if (st === 'incInterv') notes.push('vdInterv'); }
+      if (INC.includes(st)) { fj = rng(T28a[0], T28a[1], L(`art. 51 et 28 TFJC, ${VD_AUTH_TXT()[au]}`, `Art. 51 and 28 TFJC, ${VD_AUTH_TXT()[au]}`), a); depKind = 'inc'; issueKey = 'somm'; notes.push('vdInc'); if (st === 'incInterv') notes.push('vdInterv'); }
       else if (st === 'incOrd') { fj = zero(L('pas d’émolument distinct ; frais réglés avec la décision finale (art. 104 CPC)', 'no separate fee; costs settled with the final decision (Art. 104 CPC)')); depKind = 'none'; notes.push('vdOrd'); }
       else if (st === 'irrecAvance') { fj = zero(L('art. 11 TFJC', 'Art. 11 TFJC')); depKind = 'none'; notes.push('vdIrrecAv'); }
       else if (st === 'exec') { fj = rng(150, 1800, L('art. 82 al. 1 TFJC', 'Art. 82 para. 1 TFJC'), a); depKind = 'somm'; issueKey = 'somm'; notes.push('execNote'); }
@@ -878,15 +940,17 @@ const Frais = (() => {
     const light = INC.includes(st) || ['incOrd', 'irrecAvance', 'arbNom', 'arbConcours'].includes(st);
     if (dep.max > 0 && light) dep = Object.assign({}, dep, { mid: dep.min });
     else if (dep.max > 0 && !VD && ['appelInc', 'recoursInc', 'recoursOrd', 'retard', 'revision', 'interp'].includes(st)) dep = Object.assign({}, dep, { mid: (dep.min + dep.max) / 2 });
+    const gain = finalizeDep(dep, Object.assign({}, p, { oppRep: 'avocat', abroad: !!p.clientAbroad }), VD, [], {});
     dep = finalizeDep(dep, p, VD, notes, {});
     if (VD) avance = mapR(avance, x => Math.floor(x));
     if (evidence) notes.push('evidence');
-    return finish(fj, avance, dep, notes, evidence);
+    return finish(fj, avance, dep, notes, evidence, gain);
   }
 
-  function finish(fj, avance, dep, notes, evidence) {
+  function finish(fj, avance, dep, notes, evidence, gain) {
     const round = x => Math.round(x);
     const out = { fj, avance, dep, notes, evidence };
+    out.gain = gain || dep; out.gainMid = round(midOf(out.gain));
     out.fjMid = round(midOf(fj)); out.depMid = round(midOf(dep)); out.avMid = round(midOf(avance));
     out.expoMin = round(fj.min + dep.min + evidence); out.expoMax = round(fj.max + dep.max + evidence); out.expoMid = out.fjMid + out.depMid + round(evidence);
     out.capOnly = !!fj.noMin;
@@ -906,13 +970,44 @@ const STR = {
   fr: {
     pageTitle: 'Frais judiciaires et dépens, id est avocats', langGroup: 'Langue', themeGroup: 'Affichage', themeAuto: 'Auto', themeLight: 'Clair', themeDark: 'Sombre',
     title: 'Frais judiciaires et dépens',
-    subtitle: 'Estimation des frais judiciaires, de l’avance de frais et des dépens en procédure civile (Vaud, Genève, Tribunal fédéral) et dans les recours en marchés publics (Vaud, Genève, TAF, Tribunal fédéral), pour conseiller un client avant d’agir.',
+    subtitle: 'Estimation des frais judiciaires, de l’avance de frais et des dépens en procédure civile (Vaud, Genève, Tribunal fédéral) et dans les recours en marchés publics (Vaud, Genève, TAF, Tribunal fédéral).',
     lbDomain: 'Domaine', dCivil: 'Procédure civile', dMP: 'Marchés publics : recours',
     lbAuth: 'Autorité de recours', aVD: 'Vaud : Cour de droit administratif et public du Tribunal cantonal', aGE: 'Genève : Chambre administrative de la Cour de justice', aTAF: 'Tribunal administratif fédéral (marchés de la Confédération)', aTF: 'Tribunal fédéral : recours contre un arrêt cantonal ou du TAF',
     authTxt: { vd: 'Vaud, Cour de droit administratif et public', ge: 'Genève, Chambre administrative de la Cour de justice', taf: 'Tribunal administratif fédéral', tf: 'Tribunal fédéral' },
     sTF: 'Recours en matière civile au Tribunal fédéral',
+    wTitle: 'Situation en cas de succès', lbPosition: 'Position de votre client', posNone: 'Non précisée', posDem: 'Demandeur', posDef: 'Défendeur',
+    sep: ' : ', posDemR: 'Demandeur principal (défendeur reconventionnel)', posDefR: 'Défendeur principal (demandeur reconventionnel)',
+    lnRcPay: 'Montant de la demande reconventionnelle à payer', lnRcRejPay: 'Demande reconventionnelle rejetée', lnRcGet: 'Montant obtenu sur la demande reconventionnelle', lnRcRejGet: 'Demande reconventionnelle rejetée', lnRcRejGetV: 'aucun montant obtenu', lnMainRej: 'Demande principale rejetée',
+    capFailDemR: 'Coût de la procédure et demande reconventionnelle', capWinDefR: own => own ? 'Dépens et demande reconventionnelle, moins les honoraires de votre avocat' : 'Dépens et montant de la demande reconventionnelle',
+    noteFailDemR: '* Seulement si la demande reconventionnelle est admise. Si elle est rejetée, ce montant n’est pas dû et la répartition des frais judiciaires et des dépens est différente.',
+    noteWinDefR: '* Suppose que la demande reconventionnelle est admise. Si elle est rejetée, ce montant n’est pas obtenu et la répartition des frais judiciaires et des dépens sera probablement moins favorable.',
+    rcInfo: 'Demande reconventionnelle : le bilan suppose une issue identique sur les deux demandes, soit un échec ou un succès complet. En cas d’issue partagée, les frais et les dépens sont répartis selon le sort de chaque demande (art. 106 al. 2 CPC), ce que l’outil ne calcule pas.',
+    rcInfoNoPos: 'Demande reconventionnelle : elle est prise en compte dans les frais et les dépens, mais pas dans le bilan. Indiquez la position de votre client pour l’y intégrer.',
+    lbOwnFees: 'Honoraires estimés de votre propre avocat (CHF, facultatif)', hintOwnFees: 'Pour l’étape choisie ou, si d’autres étapes sont incluses, pour l’ensemble de la procédure. Ils restent à votre charge en cas d’échec ; en cas de succès, les dépens obtenus n’en couvrent souvent qu’une partie.',
+    lnFJ: 'Frais judiciaires', lnDepAdv: 'Dépens de la partie adverse', lnEv: 'Frais de preuves', lnOwn: 'Honoraires de votre avocat', lnCost: 'Coût total de la procédure', lnClaimPay: 'Montant de la demande à payer', lnTotalPay: 'Total à votre charge',
+    lnDepRecv: 'Dépens à recevoir', lnFJwin: 'Frais judiciaires', lnFJwinV: 'à la charge de la partie adverse', lnUncov: 'Part de vos honoraires non couverte', lnClaimGet: 'Montant obtenu (valeur litigieuse)', lnClaimRej: 'Demande rejetée', lnClaimRejV: 'aucun montant à payer', lnNetDem: 'Montant net obtenu', lnNetOther: 'Solde net',
+    allStages: '(ensemble des étapes)', rangeShort: (a, b) => `fourchette des frais et dépens : CHF ${a} à ${b}`, rangeCap: b => `frais et dépens jusqu’à CHF ${b}`,
+    capFailCost: 'Frais judiciaires et dépens de la partie adverse', capFailOwn: 'Y compris les honoraires de votre avocat', capFailDef: 'Montant de la demande et coût de la procédure',
+    capWinDem: own => own ? 'Montant obtenu et dépens, moins les honoraires de votre avocat' : 'Montant obtenu et dépens à recevoir', capWinOther: own => own ? 'Dépens à recevoir, moins les honoraires de votre avocat' : 'Dépens à recevoir ; l’avance de frais est restituée',
+    sumOwn: x => `Honoraires estimés de votre propre avocat : CHF ${x}.`, sumFailTot: (x, d) => `En cas d’échec, total à votre charge : environ CHF ${x} (${d}).`, sumWinTot: (x, d) => `En cas de succès : environ ${x} (${d}).`,
+    lbPathOn: 'Inclure d’autres étapes de la procédure', hintPath: 'Additionne les étapes cochées, chacune menée jusqu’au jugement, pour estimer le coût d’une procédure conduite jusqu’au bout. L’étape choisie plus haut est toujours comprise ; les autres options (matière, parties, représentation, TVA) valent pour toutes les étapes.',
+    lbPInc: 'Incidents de procédure', lbPIncType: 'Type d’incident', lbPIncN: 'Nombre d’incidents', lbPFirstType: 'Type de procédure en première instance', lbPSecond: 'Deuxième instance (appel ou recours)', lbPSecondType: 'Voie de droit', lbPTfIssue: 'Issue devant le Tribunal fédéral',
+    hDetailMain: 'Détail de l’étape choisie', hPath: 'Ensemble de la procédure', thStep: 'Étape', thFJc: 'Frais judiciaires', thAvc: 'Avance', thDepL: 'Dépens (échec)', thExpoL: 'Exposition (échec)', thGainW: 'Dépens (succès)', rowTotal: 'Total', mainTag: 'étape choisie',
+    rTitlePath: 'Exposition en cas d’échec, ensemble des étapes', rangePath: (a, b) => `Fourchette : CHF ${a} à ${b} (toutes les étapes retenues)`, kFJt: 'Frais judiciaires (total)', kAvt: 'Avances successives', kDept: 'Dépens (total)', kGaint: 'Dépens en cas de succès (total)',
+    pathNote: 'Hypothèse : échec, respectivement succès, à chaque étape, chacune menée jusqu’au jugement. Les avances sont exigées successivement, étape par étape. La valeur litigieuse est reprise à chaque étape ; en deuxième instance et devant le Tribunal fédéral, seule compte la valeur des prétentions qui restent litigieuses.',
+    stepConcil: 'Conciliation', stepFirst: t => `Première instance : ${t}`, stepInc: (t, n) => `Incident : ${t}${n > 1 ? ' (×' + n + ')' : ''}`, stepSecond: t => t, stepTF: t => `Tribunal fédéral : ${t}`,
+    sumPathHead: 'Ensemble de la procédure (échec, respectivement succès, à chaque étape) :', sumPathRow: (s, f, d, g) => `– ${s} : frais judiciaires CHF ${f}, dépens CHF ${d} ; dépens en cas de succès CHF ${g}`, sumPathTot: (e, a, b, g) => `Exposition totale en cas d’échec : environ CHF ${e} (fourchette ${a} à ${b}) ; dépens en cas de succès à toutes les étapes : environ CHF ${g}.`,
+    lbInst: 'Stade de la procédure', iConcil: 'Conciliation', iFirst: 'Première instance', iAppel: 'Appel', iRecours: 'Recours', iRev: 'Révision, interprétation ou rectification', iTF: 'Tribunal fédéral (recours en matière civile)', iArb: 'Arbitrage (juge d’appui, recours contre la sentence)',
+    tAppelInc: 'Contre une décision incidente', tProvAppel: 'Mesures provisionnelles devant l’instance d’appel', tRecInc: 'Contre une décision incidente', tRecOrd: 'Contre une ordonnance d’instruction ou une autre décision', tRetard: 'Pour retard injustifié',
+    lbPtype: 'Type de procédure', ogMerits: 'Au fond', ogProv: 'Mesures provisionnelles', ogEnf: 'Poursuite et exécution', sSuperprov: 'Mesures provisionnelles et superprovisionnelles',
+    tAppelFinal: 'Contre une décision finale (procédure ordinaire ou simplifiée)', tAppelSomm: 'Contre une décision rendue en procédure sommaire', tAppelProv: 'Contre des mesures provisionnelles', tRecFinal: 'Contre une décision finale non sujette à appel', tRecSomm: 'Contre une décision rendue en procédure sommaire', tRecProv: 'Contre des mesures provisionnelles', tRecLP: 'Contre une décision de poursuite (mainlevée, faillite, séquestre)', sProvRec: 'Mesures provisionnelles devant l’instance de recours',
+    lbVdAuth: 'Autorité compétente', auAuto: 'Selon la valeur litigieuse', auJP: 'Juge de paix', auTA: 'Président ou tribunal d’arrondissement', auCPC: 'Chambre patrimoniale cantonale', auCC: 'Cour civile du Tribunal cantonal (instance cantonale unique)', auTB: 'Président ou Tribunal des baux (bail commercial)',
+    hintVdAuth: 'L’émolument dépend de l’autorité (art. 28, 30 et 31 TFJC). La Cour civile statue en instance cantonale unique, notamment en propriété intellectuelle, en concurrence déloyale et en droit des cartels (art. 5 CPC), quelle que soit la valeur litigieuse. Par défaut : juge de paix jusqu’à 10’000 francs, président ou tribunal d’arrondissement jusqu’à 100’000 francs, Chambre patrimoniale cantonale au-delà.',
+    lbClientAbroad: 'Votre client est domicilié à l’étranger (pas de TVA sur les dépens qu’il obtiendrait)',
+    kGain: 'Dépens en cas de succès', rowGain: 'Dépens en cas de succès (à recevoir)',
+    sumGain: (x, r) => `En cas de succès : dépens à recevoir ${x} ; base : ${r}. L’avance de frais est restituée (art. 111 CPC).`,
     lbNature: 'Nature de l’affaire', natPec: 'Pécuniaire (valeur litigieuse chiffrée)', natNonpec: 'Non pécuniaire ou valeur non chiffrable',
-    ogFirst: 'Première instance', ogInc: 'Incidents en première instance', ogRec: 'Voies de recours', ogArb: 'Arbitrage', ogTF: 'Tribunal fédéral',
+    ogFirst: 'Première instance', ogInc: 'Incidents', ogRec: 'Voies de recours', ogArb: 'Arbitrage', ogTF: 'Tribunal fédéral',
     sExec: 'Exécution d’une décision', sIncRecus: 'Récusation', sIncInterv: 'Intervention ou appel en cause', sIncSuretes: 'Sûretés en garantie des dépens', sIncSusp: 'Simplification, suspension ou renvoi pour connexité', sIncDec: 'Décision incidente (recevabilité, compétence)', sIncOrd: 'Autre décision ou ordonnance d’instruction', sIncRestit: 'Restitution après défaut', sIrrecAvance: 'Irrecevabilité faute d’avance de frais',
     sAppelInc: 'Appel contre une décision incidente', sRecoursInc: 'Recours contre une décision incidente', sRecoursOrd: 'Recours contre une ordonnance d’instruction ou une autre décision', sProvAppel: 'Mesures provisionnelles devant l’instance d’appel ou de recours', sRetard: 'Recours pour retard injustifié', sRevision: 'Révision', sInterp: 'Interprétation ou rectification',
     sArbNom: 'Nomination, récusation ou remplacement d’un arbitre', sArbConcours: 'Autre concours du juge d’appui', sArbRecours: 'Recours contre une sentence devant le tribunal cantonal (art. 390 CPC)', sArbDepot: 'Dépôt d’une sentence arbitrale',
@@ -930,7 +1025,7 @@ const STR = {
     amtCap: b => `au plus CHF ${b}`,
     caution: '<b>Aide au calcul uniquement.</b> Les tarifs laissent une marge d’appréciation au tribunal ; le résultat est une estimation. Voir l’avertissement complet sous le résultat.',
     lgProc: 'Procédure', lbCanton: 'Canton', cVD: 'Vaud', cGE: 'Genève', lbStage: 'Stade de la procédure',
-    sConcil: 'Conciliation', sOrd: 'Première instance : procédure ordinaire', sSimpl: 'Première instance : procédure simplifiée', sSomm: 'Première instance : procédure sommaire (hors poursuite)',
+    sConcil: 'Conciliation', sOrd: 'Procédure ordinaire', sSimpl: 'Procédure simplifiée', sSomm: 'Procédure sommaire (hors poursuite)',
     sLP: 'Mainlevée et autres décisions sommaires de poursuite (LP)', sAppel: 'Appel contre une décision finale', sRecours: 'Recours contre une décision finale (art. 319 let. a CPC)',
     lbFirst: 'Procédure de première instance', fOrdSimpl: 'Procédure ordinaire ou simplifiée', fSomm: 'Procédure sommaire (hors poursuite)', fLP: 'Procédure sommaire de poursuite (mainlevée, faillite, séquestre)',
     lbMatter: 'Matière', mGen: 'Litige patrimonial (règle générale)', mTrav: 'Contrat de travail ou location de services', mBailH: 'Bail d’habitation', mBailC: 'Bail commercial', mConso: 'Contrat de consommation (art. 32 CPC)', mFree: 'Autre litige exempté (art. 113 al. 2 et 114 CPC : égalité, LHand, protection des données, etc.)',
@@ -942,9 +1037,9 @@ const STR = {
     kFJ: 'Frais judiciaires', kAv: 'Avance exigible', kDep: 'Dépens', upTo: 'au plus', central: 'valeur centrale',
     hDetail: 'Détail', thItem: 'Poste', thMin: 'Minimum', thMid: 'Estimation', thMax: 'Maximum', thRef: 'Base légale',
     rowFJ: 'Frais judiciaires (émolument forfaitaire)', rowEv: 'Frais d’administration des preuves (estimés)', refEv: 'art. 95 al. 2 let. c et 102 CPC', rowAv: 'Avance de frais', rowDepVD: 'Dépens (avocat, débours inclus)', rowDepGE: 'Dépens (avocat)', rowExpo: 'Exposition en cas d’échec',
-    notIncl: (ev, vat) => { const a = []; if (!ev) a.push('frais d’administration des preuves (expertises, témoins, traductions)'); if (!vat) a.push('TVA sur les dépens'); a.push('honoraires de votre propre avocat'); return 'Non compris : ' + (a.length > 1 ? a.slice(0, -1).join(', ') + ' et ' + a[a.length - 1] : a[0]) + '.'; },
+    notIncl: (ev, vat, own) => { const a = []; if (!ev) a.push('frais d’administration des preuves (expertises, témoins, traductions)'); if (!vat) a.push('TVA sur les dépens'); if (!own) a.push('honoraires de votre propre avocat'); if (!a.length) return ''; return 'Non compris : ' + (a.length > 1 ? a.slice(0, -1).join(', ') + ' et ' + a[a.length - 1] : a[0]) + '.'; },
     art111: 'En cas de gain, l’avance est restituée et la partie adverse verse les dépens alloués (art. 111 CPC).',
-    hSummary: 'Résumé pour le client', copy: 'Copier', copied: 'Copié',
+    hSummary: 'Résumé', copy: 'Copier', copied: 'Copié',
     stageTxt: { concil: 'conciliation', ord: 'procédure ordinaire', simpl: 'procédure simplifiée', somm: 'procédure sommaire', lp: 'procédure sommaire de poursuite', appel: 'appel', recours: 'recours', tf: 'recours en matière civile au Tribunal fédéral', prov: 'mesures provisionnelles', memo: 'mémoire préventif', exec: 'exécution', incRecus: 'récusation', incInterv: 'intervention ou appel en cause', incSuretes: 'sûretés en garantie des dépens', incSusp: 'simplification, suspension ou renvoi', incDec: 'décision incidente', incOrd: 'ordonnance d’instruction', incRestit: 'restitution', irrecAvance: 'irrecevabilité faute d’avance', appelInc: 'appel contre une décision incidente', recoursInc: 'recours contre une décision incidente', recoursOrd: 'recours contre une ordonnance', provAppel: 'mesures provisionnelles en deuxième instance', retard: 'recours pour retard injustifié', revision: 'révision', interp: 'interprétation ou rectification', arbNom: 'nomination ou récusation d’un arbitre', arbConcours: 'concours du juge d’appui', arbRecours: 'recours contre une sentence arbitrale', arbDepot: 'dépôt d’une sentence arbitrale' },
     sumTitle: (c, s, v) => `Estimation des frais – ${c}, ${s}, valeur litigieuse CHF ${v}`,
     sumFJ: (x, r) => `Frais judiciaires : ${x} ; base : ${r}`, sumAv: (x, r) => `Avance de frais exigible : ${x} ; base : ${r}`, sumDep: (x, r) => `Dépens : ${x} ; base : ${r}`, sumEv: x => `Frais d’administration des preuves estimés : CHF ${x}`,
@@ -954,7 +1049,7 @@ const STR = {
     n: {
       free: 'Litige exempté : aucun frais judiciaire n’est perçu, en première comme en deuxième instance cantonale (art. 113 al. 2 et 114 CPC ; TF 4A_332/2015). Les dépens restent dus, sauf en conciliation.',
       vdProv5: 'Mesures provisionnelles : l’émolument peut être porté jusqu’à 5’000 francs si la cause impose un travail particulièrement important (art. 31 TFJC).',
-      vdProv30: 'Mesures provisionnelles devant la Chambre patrimoniale cantonale : l’émolument peut être porté jusqu’à 30’000 francs (art. 31 TFJC).',
+      vdProv30: 'Mesures provisionnelles devant la Chambre patrimoniale cantonale ou la Cour civile : l’émolument peut être porté jusqu’à 30’000 francs (art. 31 TFJC).',
       vdProvJP: 'Mesures provisionnelles devant le juge de paix : émolument de l’art. 28 TFJC.',
       vdAppelProv: 'Appel contre des mesures provisionnelles : 800 francs, jusqu’à 30’000 francs pour un travail particulièrement important (art. 65 TFJC). En droit de la famille : 600 francs.',
       reconvVD: 'La demande reconventionnelle est additionnée à la demande principale pour fixer l’émolument et les dépens (art. 94 CPC ; art. 4 al. 2 TFJC), sauf si les prétentions s’excluent.',
@@ -988,7 +1083,7 @@ const STR = {
       tfTrav: 'Travail jusqu’à 30’000 francs : émolument de 200 à 1’000 francs (art. 65 al. 4 let. c LTF).',
       nonpec: 'Affaire non pécuniaire ou valeur non chiffrable : le tarif ne fixe qu’une fourchette (VD : art. 16, 21, 26, 64 et 72 TFJC, art. 3 al. 3 et 4 et art. 9 TDC ; GE : art. 16, 18 et 86 RTFMC, art. 20 al. 2 et 3 LaCC). La valeur centrale dépend de l’ampleur choisie.',
       vdNP64: 'Appel dans une affaire non pécuniaire : l’émolument peut être porté jusqu’à 30’000 francs si la cause impose un travail particulièrement important ou si l’opération en jeu a une valeur économique importante (art. 64 al. 2 TFJC).',
-      vdNPauth: 'Vaud : sans valeur litigieuse, l’outil retient le tarif du président du tribunal d’arrondissement (art. 28 et 30 TFJC) ; vérifiez l’autorité compétente.',
+      vdNPauth: 'Vaud : sans valeur litigieuse, l’outil retient le tarif du président du tribunal d’arrondissement (art. 28 et 30 TFJC), sauf si une autre autorité est choisie.',
       nonpecTrav: 'Litige de travail non pécuniaire : la gratuité dépend de la valeur litigieuse estimée (art. 113 et 114 CPC) ; l’outil ne l’applique pas.',
       assFree: 'Assurance complémentaire : pas de frais judiciaires (LAMal : art. 113 et 114 CPC ; LAA, à Genève seulement : art. 22 al. 3 let. a LaCC).',
       assLAAVD: 'Vaud : la gratuité fédérale ne vise que les assurances complémentaires à l’assurance-maladie ; les litiges d’assurance complémentaire LAA suivent le tarif ordinaire.',
@@ -1023,7 +1118,7 @@ const STR = {
       simplLarge: 'Au-delà de 30’000 francs, la procédure simplifiée ne s’applique qu’aux matières de l’art. 243 al. 2 CPC.',
       appelSmall: 'L’appel n’est recevable que si la valeur litigieuse atteint 10’000 francs (art. 308 al. 2 CPC). En dessous, la voie est le recours.',
       concil100k: 'Dès 100’000 francs, les parties peuvent renoncer d’un commun accord à la conciliation (art. 199 al. 1 CPC).',
-      vdAuthority: 'Procédure sommaire : l’autorité compétente est déduite ici de la valeur litigieuse (juge de paix jusqu’à 10’000 francs, président ou tribunal d’arrondissement jusqu’à 100’000 francs, Chambre patrimoniale cantonale au-delà). Vérifiez la compétence dans votre cas.',
+      vdAuthority: 'Procédure sommaire : l’autorité compétente est déduite ici de la valeur litigieuse (juge de paix jusqu’à 10’000 francs, président ou tribunal d’arrondissement jusqu’à 100’000 francs, Chambre patrimoniale cantonale au-delà). Choisissez l’autorité si elle diffère, par exemple la Cour civile en propriété intellectuelle.',
       vdExtra: 'Vaud : la majoration par partie supplémentaire n’est calculée que pour la procédure ordinaire et simplifiée (art. 19 et 24 TFJC).',
       vdAppelSomm: 'Vaud : l’émolument d’appel suit l’art. 62 TFJC ; un montant particulier s’applique aux mesures provisionnelles (art. 65 TFJC).',
       appelLP: 'En matière de poursuite, les décisions sommaires (mainlevée, faillite, séquestre) ne peuvent faire l’objet que d’un recours (art. 309 let. b CPC). Choisissez « Recours ».',
@@ -1038,7 +1133,7 @@ const STR = {
       mpAuthOnly: 'L’autorité adjudicatrice n’a en règle générale pas droit à des dépens (art. 68 al. 3 LTF ; art. 7 al. 3 FITAF) ; à Genève, une indemnité peut être allouée aux communes de moins de 10’000 habitants.',
       mpVDauth: 'Vaud : la Cour de droit administratif et public a déjà alloué des dépens aux autorités intimées (MPU.2024.0019) ; l’outil les maintient.',
     },
-    sProv: 'Première instance : mesures provisionnelles', sMemo: 'Mémoire préventif', fProv: 'Mesures provisionnelles',
+    sProv: 'Mesures provisionnelles', sMemo: 'Mémoire préventif', fProv: 'Mesures provisionnelles',
     lbSuper: 'Avec requête de mesures superprovisionnelles',
     lbTfIssue: 'Issue envisagée au Tribunal fédéral', tfFond: 'Jugement au fond (échange d’écritures)', tfExam: 'Irrecevabilité après examen', tf108: 'Irrecevabilité manifeste (art. 108 LTF, juge unique)',
     lbMpParty: 'Partie adverse', mpBidder: 'Adjudicataire représenté par un avocat et prenant des conclusions', mpAuthOnly: 'Seule l’autorité adjudicatrice (ou adjudicataire sans conclusions)',
@@ -1048,7 +1143,7 @@ const STR = {
     iss2: { endEarly: 'Retrait ou transaction avant circulation du dossier', endLate: 'Retrait ou transaction après circulation du dossier' },
     issC: { jug: 'Audience de conciliation tenue', endEarly: 'Fin de la procédure avant l’audience' },
     lbEvidence: 'Frais d’administration des preuves estimés (CHF), par exemple une expertise',
-    lbHoursCiv: 'Heures d’avocat estimées (dépens vaudois)', hintHoursCiv: 'Facultatif. Le juge apprécie le travail au tarif horaire usuel (350 francs selon la jurisprudence, réduit de 15 % jusqu’à 30’000 francs, art. 3 al. 2 TDC) ; le résultat reste borné par le tarif.',
+    lbHoursCiv: 'Heures d’avocat retenues pour fixer les dépens (Vaud, facultatif)', hintHoursCiv: 'Temps de travail de l’avocat de la partie qui obtient gain de cause, que le juge apprécie pour fixer les dépens au tarif horaire usuel (350 francs selon la jurisprudence, réduit de 15 % jusqu’à 30’000 francs, art. 3 al. 2 TDC). La même estimation sert aux deux scénarios et reste bornée par le tarif. Les honoraires facturés par votre propre avocat s’indiquent plus haut.',
     lbVat: 'La partie adverse n’est pas assujettie à la TVA (dépens majorés de 8,1 % en cas d’échec)',
     hintVat: 'Marchés publics : les dépens remboursent les honoraires d’avocat de la partie qui gagne. Une entreprise assujettie récupère la TVA facturée par son avocat ; le TAF ne l’ajoute donc pas (TAF B-2996/2017). Une entité non assujettie la supporte réellement : elle s’ajoute alors aux dépens.',
     lbAbroad: 'La partie adverse est domiciliée à l’étranger (pas de TVA sur ses dépens)',
@@ -1094,13 +1189,44 @@ const STR = {
   en: {
     pageTitle: 'Court costs and party costs, id est avocats', langGroup: 'Language', themeGroup: 'Display', themeAuto: 'Auto', themeLight: 'Light', themeDark: 'Dark',
     title: 'Court costs and party costs',
-    subtitle: 'Estimate of court fees, the advance on costs and party costs (dépens) in civil proceedings (Vaud, Geneva, Federal Supreme Court) and in public procurement appeals (Vaud, Geneva, Federal Administrative Court, Federal Supreme Court), to advise a client before taking action.',
+    subtitle: 'Estimate of court fees, the advance on costs and party costs (dépens) in civil proceedings (Vaud, Geneva, Federal Supreme Court) and in public procurement appeals (Vaud, Geneva, Federal Administrative Court, Federal Supreme Court).',
     lbDomain: 'Area', dCivil: 'Civil proceedings', dMP: 'Public procurement: appeals',
     lbAuth: 'Appeal authority', aVD: 'Vaud: Administrative and Public Law Court of the Cantonal Court', aGE: 'Geneva: Administrative Chamber of the Court of Justice', aTAF: 'Federal Administrative Court (federal contracts)', aTF: 'Federal Supreme Court: appeal against a cantonal or Federal Administrative Court judgment',
     authTxt: { vd: 'Vaud, Administrative and Public Law Court', ge: 'Geneva, Administrative Chamber of the Court of Justice', taf: 'Federal Administrative Court', tf: 'Federal Supreme Court' },
     sTF: 'Appeal in civil matters to the Federal Supreme Court',
+    wTitle: 'Position if the case is won', lbPosition: 'Your client’s position', posNone: 'Not specified', posDem: 'Claimant', posDef: 'Defendant',
+    sep: ': ', posDemR: 'Main claimant (counter-defendant)', posDefR: 'Main defendant (counterclaimant)',
+    lnRcPay: 'Amount of the counterclaim to pay', lnRcRejPay: 'Counterclaim dismissed', lnRcGet: 'Amount obtained on the counterclaim', lnRcRejGet: 'Counterclaim dismissed', lnRcRejGetV: 'nothing obtained', lnMainRej: 'Main claim dismissed',
+    capFailDemR: 'Cost of the proceedings and counterclaim', capWinDefR: own => own ? 'Party costs and counterclaim, less your lawyer’s fees' : 'Party costs and amount of the counterclaim',
+    noteFailDemR: '* Only if the counterclaim is upheld. If it is dismissed, this amount is not due and court fees and party costs are allocated differently.',
+    noteWinDefR: '* Assumes that the counterclaim is upheld. If it is dismissed, this amount is not obtained and court fees and party costs will probably be allocated less favourably.',
+    rcInfo: 'Counterclaim: the balance assumes the same outcome on both claims, i.e. complete failure or complete success. If the outcome is mixed, fees and costs are allocated according to the outcome of each claim (Art. 106 para. 2 CPC), which the tool does not calculate.',
+    rcInfoNoPos: 'Counterclaim: it is taken into account in fees and party costs, but not in the balance. Enter your client’s position to include it.',
+    lbOwnFees: 'Estimated fees of your own lawyer (CHF, optional)', hintOwnFees: 'For the selected stage or, if other stages are included, for the proceedings as a whole. They remain payable if the case is lost; if it is won, the party costs obtained often cover only part of them.',
+    lnFJ: 'Court fees', lnDepAdv: 'Opposing party’s costs', lnEv: 'Costs of evidence', lnOwn: 'Your lawyer’s fees', lnCost: 'Total cost of the proceedings', lnClaimPay: 'Amount of the claim to pay', lnTotalPay: 'Total payable',
+    lnDepRecv: 'Party costs to be received', lnFJwin: 'Court fees', lnFJwinV: 'borne by the opposing party', lnUncov: 'Part of your fees not covered', lnClaimGet: 'Amount obtained (amount in dispute)', lnClaimRej: 'Claim dismissed', lnClaimRejV: 'nothing to pay', lnNetDem: 'Net amount obtained', lnNetOther: 'Net balance',
+    allStages: '(all stages)', rangeShort: (a, b) => `range of fees and costs: CHF ${a} to ${b}`, rangeCap: b => `fees and costs up to CHF ${b}`,
+    capFailCost: 'Court fees and the opposing party’s costs', capFailOwn: 'Including your lawyer’s fees', capFailDef: 'Amount of the claim and cost of the proceedings',
+    capWinDem: own => own ? 'Amount obtained and party costs, less your lawyer’s fees' : 'Amount obtained and party costs to be received', capWinOther: own => own ? 'Party costs to be received, less your lawyer’s fees' : 'Party costs to be received; the advance on costs is refunded',
+    sumOwn: x => `Estimated fees of your own lawyer: CHF ${x}.`, sumFailTot: (x, d) => `If the case is lost, total payable: approximately CHF ${x} (${d}).`, sumWinTot: (x, d) => `If the case is won: approximately ${x} (${d}).`,
+    lbPathOn: 'Include other stages of the proceedings', hintPath: 'Adds up the stages ticked, each taken to judgment, to estimate the cost of proceedings pursued to the end. The stage selected above is always included; the other options (subject matter, parties, representation, VAT) apply to all stages.',
+    lbPInc: 'Incidental matters', lbPIncType: 'Type of incidental matter', lbPIncN: 'Number of incidental matters', lbPFirstType: 'First-instance procedure', lbPSecond: 'Second instance (appeal or objection)', lbPSecondType: 'Remedy', lbPTfIssue: 'Outcome before the Federal Supreme Court',
+    hDetailMain: 'Breakdown of the selected stage', hPath: 'Proceedings as a whole', thStep: 'Stage', thFJc: 'Court fees', thAvc: 'Advance', thDepL: 'Party costs (lost)', thExpoL: 'Exposure (lost)', thGainW: 'Party costs (won)', rowTotal: 'Total', mainTag: 'selected stage',
+    rTitlePath: 'Exposure if the case is lost, all stages', rangePath: (a, b) => `Range: CHF ${a} to ${b} (all stages included)`, kFJt: 'Court fees (total)', kAvt: 'Successive advances', kDept: 'Party costs (total)', kGaint: 'Party costs if successful (total)',
+    pathNote: 'Assumption: the case is lost, or won, at every stage, each taken to judgment. Advances are required successively, stage by stage. The amount in dispute is used at each stage; at second instance and before the Federal Supreme Court, only the claims still in dispute count.',
+    stepConcil: 'Conciliation', stepFirst: t => `First instance: ${t}`, stepInc: (t, n) => `Incidental matter: ${t}${n > 1 ? ' (×' + n + ')' : ''}`, stepSecond: t => t, stepTF: t => `Federal Supreme Court: ${t}`,
+    sumPathHead: 'Proceedings as a whole (lost, or won, at every stage):', sumPathRow: (s, f, d, g) => `– ${s}: court fees CHF ${f}, party costs CHF ${d}; party costs if successful CHF ${g}`, sumPathTot: (e, a, b, g) => `Total exposure if lost: approximately CHF ${e} (range ${a} to ${b}); party costs if successful at every stage: approximately CHF ${g}.`,
+    lbInst: 'Stage of proceedings', iConcil: 'Conciliation', iFirst: 'First instance', iAppel: 'Appeal', iRecours: 'Objection (recours)', iRev: 'Review, interpretation or rectification', iTF: 'Federal Supreme Court (appeal in civil matters)', iArb: 'Arbitration (supporting judge, challenge of the award)',
+    tAppelInc: 'Against an interim decision', tProvAppel: 'Interim measures before the appeal authority', tRecInc: 'Against an interim decision', tRecOrd: 'Against a procedural order or other decision', tRetard: 'For unjustified delay',
+    lbPtype: 'Type of proceedings', ogMerits: 'Merits', ogProv: 'Interim measures', ogEnf: 'Debt enforcement and enforcement', sSuperprov: 'Interim and ex parte measures',
+    tAppelFinal: 'Against a final decision (ordinary or simplified procedure)', tAppelSomm: 'Against a decision in summary proceedings', tAppelProv: 'Against interim measures', tRecFinal: 'Against a final decision not subject to appeal', tRecSomm: 'Against a decision in summary proceedings', tRecProv: 'Against interim measures', tRecLP: 'Against a debt enforcement decision (setting aside of objection, bankruptcy, attachment)', sProvRec: 'Interim measures before the objection authority',
+    lbVdAuth: 'Competent authority', auAuto: 'Based on the amount in dispute', auJP: 'Justice of the peace', auTA: 'District court or its president', auCPC: 'Chambre patrimoniale cantonale', auCC: 'Civil Court of the Cantonal Court (single cantonal instance)', auTB: 'Tenancy Court or its president (commercial lease)',
+    hintVdAuth: 'The fee depends on the authority (Art. 28, 30 and 31 TFJC). The Civil Court rules as single cantonal instance, in particular in intellectual property, unfair competition and cartel matters (Art. 5 CPC), whatever the amount in dispute. Default: justice of the peace up to CHF 10,000, district court or its president up to CHF 100,000, Chambre patrimoniale cantonale above.',
+    lbClientAbroad: 'Your client is domiciled abroad (no VAT on the party costs it would obtain)',
+    kGain: 'Party costs if successful', rowGain: 'Party costs if successful (to be received)',
+    sumGain: (x, r) => `If successful: party costs to be received ${x}; basis: ${r}. The advance on costs is refunded (Art. 111 CPC).`,
     lbNature: 'Nature of the case', natPec: 'Pecuniary (quantified amount in dispute)', natNonpec: 'Non-pecuniary or value not quantifiable',
-    ogFirst: 'First instance', ogInc: 'Incidental matters at first instance', ogRec: 'Appeals and other remedies', ogArb: 'Arbitration', ogTF: 'Federal Supreme Court',
+    ogFirst: 'First instance', ogInc: 'Incidental matters', ogRec: 'Appeals and other remedies', ogArb: 'Arbitration', ogTF: 'Federal Supreme Court',
     sExec: 'Enforcement of a decision', sIncRecus: 'Recusal', sIncInterv: 'Intervention or third-party notice with action', sIncSuretes: 'Security for party costs', sIncSusp: 'Simplification, stay or transfer for related cases', sIncDec: 'Interim decision (admissibility, jurisdiction)', sIncOrd: 'Other decision or procedural order', sIncRestit: 'Restoration after default', sIrrecAvance: 'Inadmissibility for non-payment of the advance',
     sAppelInc: 'Appeal against an interim decision', sRecoursInc: 'Objection against an interim decision', sRecoursOrd: 'Objection against a procedural order or other decision', sProvAppel: 'Interim measures before the appeal or objection authority', sRetard: 'Objection for unjustified delay', sRevision: 'Review (révision)', sInterp: 'Interpretation or rectification',
     sArbNom: 'Appointment, challenge or replacement of an arbitrator', sArbConcours: 'Other assistance by the supporting judge', sArbRecours: 'Challenge of an award before the cantonal court (Art. 390 CPC)', sArbDepot: 'Deposit of an arbitral award',
@@ -1118,7 +1244,7 @@ const STR = {
     amtCap: b => `up to CHF ${b}`,
     caution: '<b>Calculation aid only.</b> The tariffs leave the court a margin of discretion; the result is an estimate. See the full disclaimer below the result.',
     lgProc: 'Proceedings', lbCanton: 'Canton', cVD: 'Vaud', cGE: 'Geneva', lbStage: 'Stage of the proceedings',
-    sConcil: 'Conciliation', sOrd: 'First instance: ordinary procedure', sSimpl: 'First instance: simplified procedure', sSomm: 'First instance: summary procedure (other than debt enforcement)',
+    sConcil: 'Conciliation', sOrd: 'Ordinary procedure', sSimpl: 'Simplified procedure', sSomm: 'Summary procedure (other than debt enforcement)',
     sLP: 'Setting aside of objection and other summary debt enforcement decisions (DEBA)', sAppel: 'Appeal against a final decision', sRecours: 'Objection (recours) against a final decision (Art. 319 let. a CPC)',
     lbFirst: 'First-instance procedure', fOrdSimpl: 'Ordinary or simplified procedure', fSomm: 'Summary procedure (other than debt enforcement)', fLP: 'Summary debt enforcement procedure (setting aside of objection, bankruptcy, attachment)',
     lbMatter: 'Subject matter', mGen: 'Pecuniary dispute (general rule)', mTrav: 'Employment or staff leasing', mBailH: 'Residential lease', mBailC: 'Commercial lease', mConso: 'Consumer contract (Art. 32 CPC)', mFree: 'Other exempt dispute (Art. 113 para. 2 and 114 CPC: gender equality, disability, data protection, etc.)',
@@ -1130,9 +1256,9 @@ const STR = {
     kFJ: 'Court fees', kAv: 'Advance on costs', kDep: 'Party costs', upTo: 'up to', central: 'central value',
     hDetail: 'Breakdown', thItem: 'Item', thMin: 'Minimum', thMid: 'Estimate', thMax: 'Maximum', thRef: 'Legal basis',
     rowFJ: 'Court fees (flat fee)', rowEv: 'Costs of taking evidence (estimated)', refEv: 'Art. 95 para. 2 let. c and 102 CPC', rowAv: 'Advance on costs', rowDepVD: 'Party costs (lawyer, disbursements included)', rowDepGE: 'Party costs (lawyer)', rowExpo: 'Exposure if the case is lost',
-    notIncl: (ev, vat) => { const a = []; if (!ev) a.push('costs of taking evidence (experts, witnesses, translations)'); if (!vat) a.push('VAT on party costs'); a.push('your own lawyer’s fees'); return 'Not included: ' + (a.length > 1 ? a.slice(0, -1).join(', ') + ' and ' + a[a.length - 1] : a[0]) + '.'; },
+    notIncl: (ev, vat, own) => { const a = []; if (!ev) a.push('costs of taking evidence (experts, witnesses, translations)'); if (!vat) a.push('VAT on party costs'); if (!own) a.push('your own lawyer’s fees'); if (!a.length) return ''; return 'Not included: ' + (a.length > 1 ? a.slice(0, -1).join(', ') + ' and ' + a[a.length - 1] : a[0]) + '.'; },
     art111: 'If the case is won, the advance is refunded and the opposing party pays the party costs awarded (Art. 111 CPC).',
-    hSummary: 'Summary for the client', copy: 'Copy', copied: 'Copied',
+    hSummary: 'Summary', copy: 'Copy', copied: 'Copied',
     stageTxt: { concil: 'conciliation', ord: 'ordinary procedure', simpl: 'simplified procedure', somm: 'summary procedure', lp: 'summary debt enforcement procedure', appel: 'appeal', recours: 'objection (recours)', tf: 'appeal in civil matters to the Federal Supreme Court', prov: 'interim measures', memo: 'protective brief', exec: 'enforcement', incRecus: 'recusal', incInterv: 'intervention or third-party notice', incSuretes: 'security for party costs', incSusp: 'simplification, stay or transfer', incDec: 'interim decision', incOrd: 'procedural order', incRestit: 'restoration', irrecAvance: 'inadmissibility for non-payment of the advance', appelInc: 'appeal against an interim decision', recoursInc: 'objection against an interim decision', recoursOrd: 'objection against a procedural order', provAppel: 'interim measures at second instance', retard: 'objection for unjustified delay', revision: 'review', interp: 'interpretation or rectification', arbNom: 'appointment or challenge of an arbitrator', arbConcours: 'assistance by the supporting judge', arbRecours: 'challenge of an arbitral award', arbDepot: 'deposit of an arbitral award' },
     sumTitle: (c, s, v) => `Cost estimate – ${c}, ${s}, amount in dispute CHF ${v}`,
     sumFJ: (x, r) => `Court fees: ${x}; basis: ${r}`, sumAv: (x, r) => `Advance on costs: ${x}; basis: ${r}`, sumDep: (x, r) => `Party costs: ${x}; basis: ${r}`, sumEv: x => `Estimated costs of taking evidence: CHF ${x}`,
@@ -1142,7 +1268,7 @@ const STR = {
     n: {
       free: 'Exempt dispute: no court fees are charged, at first instance or on cantonal appeal (Art. 113 para. 2 and 114 CPC; FSC 4A_332/2015). Party costs remain payable, except in conciliation.',
       vdProv5: 'Interim measures: the fee may be increased up to CHF 5,000 where the case requires particularly substantial work (Art. 31 TFJC).',
-      vdProv30: 'Interim measures before the Chambre patrimoniale cantonale: the fee may be increased up to CHF 30,000 (Art. 31 TFJC).',
+      vdProv30: 'Interim measures before the Chambre patrimoniale cantonale or the Civil Court: the fee may be increased up to CHF 30,000 (Art. 31 TFJC).',
       vdProvJP: 'Interim measures before the justice of the peace: fee under Art. 28 TFJC.',
       vdAppelProv: 'Appeal against interim measures: CHF 800, up to CHF 30,000 for particularly substantial work (Art. 65 TFJC). Family law: CHF 600.',
       reconvVD: 'The counterclaim is added to the main claim to set the fee and party costs (Art. 94 CPC; Art. 4 para. 2 TFJC), unless the claims are mutually exclusive.',
@@ -1176,7 +1302,7 @@ const STR = {
       tfTrav: 'Employment up to CHF 30,000: fee of CHF 200 to 1,000 (Art. 65 para. 4 let. c BGG).',
       nonpec: 'Non-pecuniary case or value not quantifiable: the tariff only sets a range (VD: Art. 16, 21, 26, 64 and 72 TFJC, Art. 3 para. 3 and 4 and Art. 9 TDC; GE: Art. 16, 18 and 86 RTFMC, Art. 20 para. 2 and 3 LaCC). The central value depends on the scale selected.',
       vdNP64: 'Appeal in a non-pecuniary case: the fee may be increased up to CHF 30,000 where the case requires particularly substantial work or the transaction at stake has significant economic value (Art. 64 para. 2 TFJC).',
-      vdNPauth: 'Vaud: without an amount in dispute, the tool applies the tariff of the president of the district court (Art. 28 and 30 TFJC); check the competent authority.',
+      vdNPauth: 'Vaud: without an amount in dispute, the tool applies the tariff of the president of the district court (Art. 28 and 30 TFJC), unless another authority is selected.',
       nonpecTrav: 'Non-pecuniary employment dispute: whether proceedings are free depends on the estimated amount in dispute (Art. 113 and 114 CPC); the tool does not apply it.',
       assFree: 'Supplementary insurance: no court fees (LAMal: Art. 113 and 114 CPC; LAA, in Geneva only: Art. 22 para. 3 let. a LaCC).',
       assLAAVD: 'Vaud: the federal exemption only covers supplementary health insurance; supplementary accident insurance disputes follow the ordinary tariff.',
@@ -1211,7 +1337,7 @@ const STR = {
       simplLarge: 'Above CHF 30,000, the simplified procedure applies only to the matters listed in Art. 243 para. 2 CPC.',
       appelSmall: 'An appeal is admissible only if the amount in dispute is at least CHF 10,000 (Art. 308 para. 2 CPC). Below that, the remedy is an objection (recours).',
       concil100k: 'From CHF 100,000, the parties may jointly waive conciliation (Art. 199 para. 1 CPC).',
-      vdAuthority: 'Summary procedure: the competent authority is inferred here from the amount in dispute (justice of the peace up to CHF 10,000, district court or its president up to CHF 100,000, Chambre patrimoniale cantonale above). Check jurisdiction in your case.',
+      vdAuthority: 'Summary procedure: the competent authority is inferred here from the amount in dispute (justice of the peace up to CHF 10,000, district court or its president up to CHF 100,000, Chambre patrimoniale cantonale above). Select the authority if it differs, for instance the Civil Court in intellectual property matters.',
       vdExtra: 'Vaud: the increase per additional party is calculated only for the ordinary and simplified procedures (Art. 19 and 24 TFJC).',
       vdAppelSomm: 'Vaud: the appeal fee follows Art. 62 TFJC; a specific amount applies to interim measures (Art. 65 TFJC).',
       appelLP: 'In debt enforcement matters, summary decisions (setting aside of objection, bankruptcy, attachment) are subject only to an objection (recours) (Art. 309 let. b CPC). Select “Objection (recours)”.',
@@ -1226,7 +1352,7 @@ const STR = {
       mpAuthOnly: 'The contracting authority is as a rule not entitled to party costs (Art. 68 para. 3 BGG; Art. 7 para. 3 FITAF); in Geneva, an indemnity may be granted to municipalities with fewer than 10,000 inhabitants.',
       mpVDauth: 'Vaud: the Administrative and Public Law Court has awarded party costs to respondent authorities (MPU.2024.0019); the tool keeps them.',
     },
-    sProv: 'First instance: interim measures', sMemo: 'Protective brief', fProv: 'Interim measures',
+    sProv: 'Interim measures', sMemo: 'Protective brief', fProv: 'Interim measures',
     lbSuper: 'With a request for ex parte measures',
     lbTfIssue: 'Expected outcome before the Federal Supreme Court', tfFond: 'Judgment on the merits (exchange of briefs)', tfExam: 'Inadmissibility after examination', tf108: 'Manifest inadmissibility (Art. 108 BGG, single judge)',
     lbMpParty: 'Opposing party', mpBidder: 'Successful bidder represented by a lawyer and filing submissions', mpAuthOnly: 'Contracting authority only (or bidder without submissions)',
@@ -1236,7 +1362,7 @@ const STR = {
     iss2: { endEarly: 'Withdrawal or settlement before the file circulates', endLate: 'Withdrawal or settlement after the file has circulated' },
     issC: { jug: 'Conciliation hearing held', endEarly: 'Proceedings ended before the hearing' },
     lbEvidence: 'Estimated costs of taking evidence (CHF), e.g. an expert opinion',
-    lbHoursCiv: 'Estimated lawyer hours (Vaud party costs)', hintHoursCiv: 'Optional. The judge assesses the work at the usual hourly rate (CHF 350 in case law, reduced by 15% up to CHF 30,000, Art. 3 para. 2 TDC); the result remains within the tariff.',
+    lbHoursCiv: 'Lawyer hours used to set party costs (Vaud, optional)', hintHoursCiv: 'Working time of the successful party’s lawyer, which the judge assesses to set party costs at the usual hourly rate (CHF 350 in case law, reduced by 15% up to CHF 30,000, Art. 3 para. 2 TDC). The same estimate is used for both scenarios and stays within the tariff. Fees charged by your own lawyer are entered above.',
     lbVat: 'The opposing party is not VAT-registered (party costs increased by 8.1% if the case is lost)',
     hintVat: 'Public procurement: party costs reimburse the lawyer’s fees of the successful party. A VAT-registered business recovers the VAT charged by its lawyer, so the Federal Administrative Court does not add it (FAC B-2996/2017). An entity that is not VAT-registered actually bears it, so it is added to party costs.',
     lbAbroad: 'The opposing party is domiciled abroad (no VAT on its party costs)',
@@ -1318,19 +1444,82 @@ function renderIssues(stage) {
   sel.value = list.includes(prev) ? prev : 'jug';
   $('#issueBox').hidden = !list.length;
 }
+const INC_VD = ['incRecus', 'incInterv', 'incSuretes', 'incSusp', 'incDec', 'incRestit'];
+const PTYPES = {
+  concil: [[null, [['concil', 'sConcil']]]],
+  first: [['ogMerits', [['ord', 'sOrd'], ['simpl', 'sSimpl'], ['somm', 'sSomm']]], ['ogProv', [['prov', 'sProv'], ['superprov', 'sSuperprov'], ['memo', 'sMemo']]], ['ogEnf', [['lp', 'sLP'], ['exec', 'sExec']]], ['ogInc', [['incRecus', 'sIncRecus'], ['incInterv', 'sIncInterv'], ['incSuretes', 'sIncSuretes'], ['incSusp', 'sIncSusp'], ['incDec', 'sIncDec'], ['incOrd', 'sIncOrd'], ['incRestit', 'sIncRestit'], ['irrecAvance', 'sIrrecAvance']]]],
+  appel: [[null, [['a_ordsimpl', 'tAppelFinal'], ['a_somm', 'tAppelSomm'], ['a_prov', 'tAppelProv'], ['appelInc', 'tAppelInc'], ['provAppel', 'tProvAppel']]]],
+  recours: [[null, [['r_ordsimpl', 'tRecFinal'], ['r_somm', 'tRecSomm'], ['r_prov', 'tRecProv'], ['r_lp', 'tRecLP'], ['recoursInc', 'tRecInc'], ['recoursOrd', 'tRecOrd'], ['retard', 'tRetard'], ['provRec', 'sProvRec']]]],
+  rev: [[null, [['revision', 'sRevision'], ['interp', 'sInterp']]]],
+  tf: [[null, [['tf', 'sTF']]]],
+  arb: [[null, [['arbNom', 'sArbNom'], ['arbConcours', 'sArbConcours'], ['arbRecours', 'sArbRecours'], ['arbDepot', 'sArbDepot']]]],
+};
+const PMAP = v => v === 'superprov' ? { stage: 'prov', superprov: true } : v === 'provRec' ? { stage: 'provAppel' } : /^a_/.test(v) ? { stage: 'appel', first: v.slice(2) } : /^r_/.test(v) ? { stage: 'recours', first: v.slice(2) } : { stage: v };
+let ptypeKey = null;
+function renderPtypes() {
+  const t = T(), inst = $('#inst').value, key = inst + LANG;
+  if (key === ptypeKey) return;
+  const prev = $('#ptype').value, groups = PTYPES[inst];
+  $('#ptype').innerHTML = groups.map(([og, items]) => { const opts = items.map(([v, k]) => `<option value="${v}">${t[k]}</option>`).join(''); return og ? `<optgroup label="${t[og]}">${opts}</optgroup>` : opts; }).join('');
+  if ([...$('#ptype').options].some(o => o.value === prev)) $('#ptype').value = prev;
+  $('#ptypeBox').hidden = groups.reduce((n, g) => n + g[1].length, 0) <= 1;
+  ptypeKey = key;
+}
+const INC_ALL = ['incRecus', 'incInterv', 'incSuretes', 'incSusp', 'incDec', 'incOrd', 'incRestit', 'irrecAvance'];
+const mainKeyOf = (inst, stage) => inst === 'concil' ? 'concil' : inst === 'first' ? (INC_ALL.includes(stage) ? 'inc' : 'first') : (inst === 'appel' || inst === 'recours') ? 'second' : inst === 'tf' ? 'tf' : null;
+const optText = (sel, v) => { const o = [...$(sel).options].find(x => x.value === v); return o ? o.textContent : v; };
+function computePath(p, r, mainKey, stage, first) {
+  const t = T(), rows = [], base = Object.assign({}, p, { issue: 'jug', superprov: false, hours: 0, evidence: 0 });
+  const lc = s => s.charAt(0).toLowerCase() + s.slice(1);
+  const firstType = mainKey === 'first' ? stage : $('#pFirstType').value;
+  const firstKind = firstType === 'ord' || firstType === 'simpl' ? 'ordsimpl' : ['somm', 'prov', 'lp'].includes(firstType) ? firstType : 'somm';
+  const add = (key, label, res, n) => {
+    if (!res || res.error) return;
+    const k = n || 1;
+    rows.push({ key, label, main: key === mainKey, fj: res.fjMid * k, fjMin: res.fj.min * k, fjMax: res.fj.max * k, av: res.avMid * k, dep: res.depMid * k, depMin: res.dep.min * k, depMax: res.dep.max * k, gain: res.gainMid * k, ev: key === mainKey ? (res.evidence || 0) : 0 });
+  };
+  const mainLabel = () => { const ptTxt = $('#ptypeBox').hidden ? '' : $('#ptype').selectedOptions[0].textContent; return mainKey === 'concil' ? t.stepConcil : mainKey === 'first' ? t.stepFirst(lc(ptTxt)) : mainKey === 'inc' ? t.stepInc(lc(ptTxt), 1) : mainKey === 'second' ? t.stepSecond($('#inst').selectedOptions[0].textContent + ' : ' + lc(ptTxt)) : t.stepTF(lc(optText('#tfIssue', p.tfIssue))); };
+  const want = k => k === mainKey || $({ concil: '#pConcil', inc: '#pInc', first: '#pFirst', second: '#pSecond', tf: '#pTF' }[k]).checked;
+  ['concil', 'inc', 'first', 'second', 'tf'].forEach(k => {
+    if (!want(k)) return;
+    if (k === mainKey) { add(k, mainLabel(), r); return; }
+    if (k === 'concil') add(k, t.stepConcil, Frais.compute(Object.assign({}, base, { stage: 'concil' })));
+    else if (k === 'inc') { const it = $('#pIncType').value, n = Math.max(1, parseInt($('#pIncN').value, 10) || 1); add(k, t.stepInc(lc(optText('#pIncType', it)), n), Frais.compute(Object.assign({}, base, { stage: it })), n); }
+    else if (k === 'first') add(k, t.stepFirst(lc(optText('#pFirstType', firstType))), Frais.compute(Object.assign({}, base, { stage: firstType })));
+    else if (k === 'second') { let kind = $('#pSecondType').value; if (firstKind === 'lp') kind = 'recours'; add(k, t.stepSecond(optText('#pSecondType', kind)), Frais.compute(Object.assign({}, base, { stage: kind, first: firstKind }))); }
+    else if (k === 'tf') add(k, t.stepTF(lc(optText('#pTfIssue', $('#pTfIssue').value))), Frais.compute(Object.assign({}, base, { stage: 'tf', tfIssue: $('#pTfIssue').value })));
+  });
+  const sum = f => rows.reduce((s, x) => s + f(x), 0);
+  const tot = { fj: sum(x => x.fj), av: sum(x => x.av), dep: sum(x => x.dep), gain: sum(x => x.gain), ev: sum(x => x.ev) };
+  tot.expo = tot.fj + tot.dep + tot.ev; tot.expoMin = sum(x => x.fjMin + x.depMin + x.ev); tot.expoMax = sum(x => x.fjMax + x.depMax + x.ev);
+  return { rows, tot };
+}
 function update() {
   const t = T();
+  renderPtypes();
   const mp = $('#domain').value === 'mp';
   if (lastDomain !== $('#domain').value) renderPrinciples();
-  const stage = $('#stage').value, auth = $('#auth').value, canton = $('#canton').value;
+  const sel = PMAP($('#ptype').value || 'ord'), stage = sel.stage, first = sel.first || 'ordsimpl', superprov = !!sel.superprov;
+  const auth = $('#auth').value, canton = $('#canton').value;
   const tf = (!mp && stage === 'tf') || (mp && auth === 'tf');
   $('#mpBox').hidden = !mp; $('#civilBox').hidden = mp;
-  $('#firstBox').hidden = !(stage === 'appel' || stage === 'recours');
   $('#cantonBox').hidden = stage === 'tf';
-  $('#superBox').hidden = mp || stage !== 'prov';
+  $('#vdAuthBox').hidden = mp || canton !== 'VD' || !(['somm', 'prov', 'memo'].includes(stage) || INC_VD.includes(stage));
+  const mainKey = mp ? null : mainKeyOf($('#inst').value, stage);
+  $('#pathWrap').hidden = !mainKey;
+  $('#positionBox').hidden = mp || $('#nature').value === 'nonpec';
+  { const rcIn = !$('#reconvBox').hidden && parseFloat($('#reconv').value) > 0; $('#position').options[1].textContent = rcIn ? t.posDemR : t.posDem; $('#position').options[2].textContent = rcIn ? t.posDefR : t.posDef; }
+  const pathOn = !!mainKey && $('#pathOn').checked;
+  $('#pathPanel').hidden = !pathOn;
+  [['concil', '#pConcil', null], ['inc', '#pInc', '#pIncBox'], ['first', '#pFirst', '#pFirstBox'], ['second', '#pSecond', '#pSecondBox'], ['tf', '#pTF', '#pTFBox']].forEach(([k, cb, box]) => {
+    const isMain = k === mainKey; $(cb).disabled = isMain; if (isMain) $(cb).checked = true;
+    if (box) $(box).hidden = isMain || !$(cb).checked;
+  });
+  if (mainKey && mainKey !== 'first') $('#pFirstBox').hidden = !($('#pFirst').checked || $('#pSecond').checked);
   $('#tfIssueBox').hidden = !tf; $('#mpPartyBox').hidden = !mp;
   const np = !mp && $('#nature').value === 'nonpec', special = !mp && Frais.SPECIAL.includes(stage), matter = $('#matter').value;
-  $('#reconvBox').hidden = mp || np || !(stage === 'ord' || stage === 'simpl');
+  const firstInPath = pathOn && $('#pFirst').checked && ['ord', 'simpl'].includes($('#pFirstType').value);
+  $('#reconvBox').hidden = mp || np || !(stage === 'ord' || stage === 'simpl' || firstInPath);
   $('#vlSet').hidden = np;
   $('#ampBox').hidden = !(np || special);
   $('#oppRepBox').hidden = mp;
@@ -1341,34 +1530,72 @@ function update() {
   $('#hoursCivBox').hidden = mp || stage === 'tf' || canton !== 'VD';
   $('#tafOpt').hidden = !(mp && auth === 'taf');
   $('#vatBox').hidden = !mp || tf; $('#vatHint').hidden = !mp || tf;
-  $('#abroadBox').hidden = mp || stage === 'tf'; $('#abroadHint').hidden = mp || stage === 'tf';
+  $('#abroadBox').hidden = mp || stage === 'tf'; $('#abroadHint').hidden = mp || stage === 'tf'; $('#clientAbroadBox').hidden = mp || stage === 'tf';
   $('#vlLabel').textContent = mp ? t.lbVLmp : special ? t.lbVLmerits : t.lbVL; $('#vlHint').textContent = mp ? t.hintVLmp : special ? t.hintVLmerits : t.hintVL;
   const vl = np ? 0 : parseFloat($('#vl').value);
   const num = s => { const x = parseFloat($(s).value); return Number.isFinite(x) && x > 0 ? x : 0; };
-  const p = { lang: LANG, canton, stage, first: $('#first').value, matter: $('#matter').value, vl, reconv: num('#reconv'), extra: Math.max(0, parseInt($('#extra').value, 10) || 0), foreign: $('#foreign').checked,
-    issue: $('#issue').value || 'jug', superprov: $('#superprov').checked, tfIssue: $('#tfIssue').value, vat: $('#vat').checked, abroad: $('#abroad').checked, hours: mp ? num('#hours') : num('#hoursCiv'), evidence: num('#evidence'), auth, mpParty: $('#mpParty').value, nature: np ? 'nonpec' : 'pec', amp: $('#amp').value, oppRep: $('#oppRep').value, insured: $('#insured').checked };
+  const p = { lang: LANG, canton, stage, first, vdAuth: $('#vdAuthBox').hidden ? 'auto' : $('#vdAuth').value, clientAbroad: $('#clientAbroad').checked, matter: $('#matter').value, vl, reconv: $('#reconvBox').hidden ? 0 : num('#reconv'), extra: Math.max(0, parseInt($('#extra').value, 10) || 0), foreign: $('#foreign').checked,
+    issue: $('#issue').value || 'jug', superprov, tfIssue: $('#tfIssue').value, vat: $('#vat').checked, abroad: $('#abroad').checked, hours: mp ? num('#hours') : num('#hoursCiv'), evidence: num('#evidence'), auth, mpParty: $('#mpParty').value, nature: np ? 'nonpec' : 'pec', amp: $('#amp').value, oppRep: $('#oppRep').value, insured: $('#insured').checked };
   const alerts = [];
   if (!np && (!(vl >= 0) || $('#vl').value === '')) {
     $('#rTotal').className = 'total empty'; $('#rTotal').textContent = t.emptyTotal;
     $('#rRange').textContent = ''; $('#rKpis').innerHTML = ''; $('#rAlerts').innerHTML = ''; $('#rDetails').hidden = true;
+    $('#winBox').hidden = true; $('#failLines').innerHTML = '';
     return;
   }
   const r = mp ? Frais.computeMP(p) : Frais.compute(p);
   if (r.error) {
     $('#rTotal').className = 'total empty'; $('#rTotal').textContent = '—';
     $('#rRange').textContent = ''; $('#rKpis').innerHTML = ''; $('#rDetails').hidden = true;
+    $('#winBox').hidden = true; $('#failLines').innerHTML = '';
     $('#rAlerts').innerHTML = `<div class="alert warn">${t.n[r.error]}</div>`;
     return;
   }
+  const path = pathOn ? computePath(p, r, mainKey, stage, first) : null;
   [...new Set(r.notes)].forEach(k => { if (t.n[k]) alerts.push({ lvl: ['appelSmall', 'simplLarge', 'tf15', 'tf30', 'ordSmall'].includes(k) ? 'warn' : 'info', html: t.n[k] }); });
   $('#rTotal').className = 'total';
-  $('#rTotal').textContent = `CHF ${fmt(r.expoMid)}`;
-  $('#rRange').textContent = r.capOnly ? t.capRange(fmt(r.expoMax)) : t.rangeTxt(fmt(r.expoMin), fmt(r.expoMax));
+  const multi = !!(path && path.rows.length > 1);
+  const own = num('#ownFees'), pos = $('#positionBox').hidden ? '' : $('#position').value, claim = pos && !np ? vl : 0;
+  const S = multi ? { fj: path.tot.fj, dep: path.tot.dep, ev: path.tot.ev, gain: path.tot.gain, costs: path.tot.expo }
+    : { fj: r.fjMid, dep: r.depMid, ev: r.evidence || 0, gain: r.gainMid, costs: r.expoMid };
+  const money = v => (v < 0 ? '−' : '') + 'CHF ' + fmt(Math.abs(v));
+  const li = (a, b, cls) => `<li class="${cls || ''}"><span>${a}</span><span>${b}</span></li>`;
+  const rc = pos ? p.reconv || 0 : 0, rcDem = pos === 'dem' && rc > 0, rcDef = pos === 'def' && rc > 0;
+  const failTotal = S.costs + own + (pos === 'def' ? claim : 0) + (rcDem ? rc : 0);
+  $('#rTitle').textContent = multi ? t.rTitlePath : t.rTitle;
+  $('#rTotal').textContent = money(failTotal);
+  const eMin = multi ? path.tot.expoMin : r.expoMin, eMax = multi ? path.tot.expoMax : r.expoMax;
+  $('#rRange').textContent = (rcDem ? t.capFailDemR + ' *' : pos === 'def' ? t.capFailDef : own ? t.capFailOwn : t.capFailCost) + (multi ? ' ' + t.allStages : '') + ' ; ' + (r.capOnly && !multi ? t.rangeCap(fmt(eMax)) : t.rangeShort(fmt(eMin), fmt(eMax))) + '.';
+  $('#failLines').innerHTML = li(t.lnFJ, money(S.fj)) + li(t.lnDepAdv, money(S.dep)) + (S.ev ? li(t.lnEv, money(S.ev)) : '') + (own ? li(t.lnOwn, money(own)) : '')
+    + ((own || S.ev) && (pos === 'def' || rcDem) ? li(t.lnCost, money(S.costs + own), 'sub') : '') + (pos === 'def' && claim ? li(t.lnClaimPay, money(claim)) : '')
+    + (rcDem ? li(t.lnRcPay + ' *', money(rc)) : '') + (rcDef ? li(t.lnRcRejGet, t.lnRcRejGetV, 'info') : '')
+    + li(pos === 'def' || rcDem ? t.lnTotalPay + (rcDem ? ' *' : '') : t.lnCost, money(failTotal), 'tot');
+  $('#failNote').hidden = !rcDem; $('#failNote').textContent = rcDem ? t.noteFailDemR : '';
+  const winTotal = (pos === 'dem' ? claim : 0) + S.gain - own + (rcDef ? rc : 0);
+  $('#winBox').hidden = false;
+  $('#wTotal').textContent = money(winTotal);
+  $('#wRange').textContent = pos === 'dem' ? t.capWinDem(!!own) : rcDef ? t.capWinDefR(!!own) + ' *' : t.capWinOther(!!own);
+  $('#winLines').innerHTML = (pos === 'dem' && claim ? li(t.lnClaimGet, money(claim)) : '') + (rcDem ? li(t.lnRcRejPay, t.lnClaimRejV) : '')
+    + (pos === 'def' ? li(rcDef ? t.lnMainRej : t.lnClaimRej, t.lnClaimRejV) : '') + (rcDef ? li(t.lnRcGet + ' *', money(rc)) : '')
+    + li(t.lnDepRecv, money(S.gain)) + li(t.lnFJwin, t.lnFJwinV)
+    + (own ? li(t.lnOwn, money(-own)) + (own > S.gain ? li(t.lnUncov, money(own - S.gain), 'info') : '') : '')
+    + li((pos === 'dem' ? t.lnNetDem : t.lnNetOther) + (rcDef ? ' *' : ''), money(winTotal), 'tot');
+  $('#winNote').hidden = !rcDef; $('#winNote').textContent = rcDef ? t.noteWinDefR : '';
+  if (p.reconv > 0 && !mp && !np) alerts.push({ lvl: 'info', html: pos ? t.rcInfo : t.rcInfoNoPos });
   const kv = (lab, rng, mid, pre) => `<span class="kpi">${lab}<b>${pre ? pre + ' ' : ''}CHF ${fmt(rng.min === rng.max ? rng.min : mid)}</b>${rng.min !== rng.max ? `<small>${rng.noMin ? t.upTo + ' ' + fmt(rng.max) : fmt(rng.min) + ' – ' + fmt(rng.max)}</small>` : ''}</span>`;
-  $('#rKpis').innerHTML = kv(t.kFJ, r.fj, r.fjMid) + kv(t.kAv, r.avance, r.avMid, '≈') + kv(t.kDep, r.dep, r.depMid);
+  const kt = (lab, v) => `<span class="kpi">${lab}<b>CHF ${fmt(v)}</b></span>`;
+  $('#rKpis').innerHTML = multi ? kt(t.kFJt, path.tot.fj) + kt(t.kAvt, path.tot.av) + kt(t.kDept, path.tot.dep)
+    : kv(t.kFJ, r.fj, r.fjMid) + kv(t.kAv, r.avance, r.avMid, '≈') + kv(t.kDep, r.dep, r.depMid);
+  $('#pathOut').hidden = !(path && path.rows.length > 1);
+  $('#hDetail').textContent = path && path.rows.length > 1 ? t.hDetailMain : t.hDetail;
+  if (path && path.rows.length > 1) {
+    $('#pathTable').innerHTML = `<thead><tr><th>${t.thStep}</th><th>${t.thFJc}</th><th>${t.thAvc}</th><th>${t.thDepL}</th><th>${t.thExpoL}</th><th>${t.thGainW}</th></tr></thead><tbody>`
+      + path.rows.map(x => `<tr class="${x.main ? 'main' : ''}"><td>${x.label}${x.main ? ' <span class="muted">(' + t.mainTag + ')</span>' : ''}</td><td>${fmt(x.fj)}</td><td>${fmt(x.av)}</td><td>${fmt(x.dep)}</td><td>${fmt(x.fj + x.dep + x.ev)}</td><td>${fmt(x.gain)}</td></tr>`).join('')
+      + `<tr class="sum"><td>${t.rowTotal}</td><td>${fmt(path.tot.fj)}</td><td>${fmt(path.tot.av)}</td><td>${fmt(path.tot.dep)}</td><td>${fmt(path.tot.expo)}</td><td>${fmt(path.tot.gain)}</td></tr></tbody>`;
+  }
   $('#rAlerts').innerHTML = alerts.map(x => `<div class="alert ${x.lvl}">${x.html}</div>`).join('');
   const vatShown = tf || (mp ? p.vat : !p.abroad), evShown = !!r.evidence;
-  $('#excl').textContent = t.notIncl(evShown, vatShown) + (mp || stage === 'tf' ? '' : ' ' + t.art111);
+  $('#excl').textContent = (t.notIncl(evShown, vatShown, !!own) + (mp || stage === 'tf' ? '' : ' ' + t.art111)).trim();
 
   const depLabel = (!mp && stage !== 'tf' && canton === 'VD') || (mp && auth === 'vd') ? t.rowDepVD : t.rowDepGE;
   const row = (lab, a, m, b, ref, noMin) => `<tr><td>${lab}</td><td>${noMin ? t.noMinCell : fmt(a)}</td><td>${fmt(m)}</td><td>${fmt(b)}</td><td class="ref">${ref}</td></tr>`;
@@ -1377,13 +1604,18 @@ function update() {
     + (r.evidence ? row(t.rowEv, r.evidence, r.evidence, r.evidence, t.refEv) : '')
     + row(t.rowAv, r.avance.min, r.avMid, r.avance.max, r.avance.ref, r.avance.noMin)
     + row(depLabel, r.dep.min, r.depMid, r.dep.max, r.dep.ref)
-    + `<tr class="sum"><td>${t.rowExpo}</td><td>${r.capOnly ? t.noMinCell : fmt(r.expoMin)}</td><td>${fmt(r.expoMid)}</td><td>${fmt(r.expoMax)}</td><td></td></tr></tbody>`;
+    + `<tr class="sum"><td>${t.rowExpo}</td><td>${r.capOnly ? t.noMinCell : fmt(r.expoMin)}</td><td>${fmt(r.expoMid)}</td><td>${fmt(r.expoMax)}</td><td></td></tr>`
+    + `<tr class="sum"><td>${t.rowGain}</td><td>${fmt(r.gain.min)}</td><td>${fmt(r.gainMid)}</td><td>${fmt(r.gain.max)}</td><td class="ref">${r.gain.ref}</td></tr></tbody>`;
 
   const cantonName = $('#canton').selectedOptions[0].textContent;
   const amt = (rg, mid) => rg.max === 0 ? t.none : rg.min === rg.max ? `CHF ${fmt(rg.min)}` : t.amtMid(fmt(mid), rg.noMin ? null : fmt(rg.min), fmt(rg.max));
   const matterTxt = mp ? '' : (p.matter !== 'gen' ? ' – ' + $('#matter').selectedOptions[0].textContent : '');
   const issueTxt = !$('#issueBox').hidden && p.issue !== 'jug' ? ' – ' + $('#issue').selectedOptions[0].textContent : '';
-  const head = (mp ? t.sumTitleMP(t.authTxt[auth], fmt(vl)) : stage === 'tf' ? (np ? t.sumTitleTFNP : t.sumTitleTF(fmt(vl))) : np ? t.sumTitleNP(cantonName, t.stageTxt[stage]) : t.sumTitle(cantonName, t.stageTxt[stage], fmt(vl))) + matterTxt + issueTxt;
+  const lc = s => s ? s.charAt(0).toLowerCase() + s.slice(1) : '';
+  const instTxt = $('#inst').selectedOptions[0].textContent, ptTxt = $('#ptypeBox').hidden ? '' : $('#ptype').selectedOptions[0].textContent;
+  const stageDesc = $('#inst').value === 'first' ? lc(ptTxt) : lc(instTxt) + (ptTxt ? ', ' + lc(ptTxt) : '');
+  const authTxt = !$('#vdAuthBox').hidden && $('#vdAuth').value !== 'auto' ? ' – ' + $('#vdAuth').selectedOptions[0].textContent : '';
+  const head = (mp ? t.sumTitleMP(t.authTxt[auth], fmt(vl)) : stage === 'tf' ? (np ? t.sumTitleTFNP : t.sumTitleTF(fmt(vl))) : np ? t.sumTitleNP(cantonName, stageDesc) : t.sumTitle(cantonName, stageDesc, fmt(vl))) + authTxt + matterTxt + issueTxt;
   $('#txtSum').value = [
     head,
     '',
@@ -1392,22 +1624,28 @@ function update() {
     t.sumAv(amt(r.avance, r.avMid), r.avance.ref),
     t.sumDep(amt(r.dep, r.depMid), r.dep.ref),
     r.capOnly ? t.sumExpoCap(fmt(r.expoMid), fmt(r.expoMax)) : t.sumExpo(fmt(r.expoMin), fmt(r.expoMax), fmt(r.expoMid)),
+    t.sumGain(amt(r.gain, r.gainMid), r.gain.ref),
+    ...(own ? [t.sumOwn(fmt(own))] : []),
+    ...(own || pos ? [t.sumFailTot(fmt(failTotal), [...$('#failLines').querySelectorAll('li:not(.tot):not(.info):not(.sub)')].map(x => lc(x.children[0].textContent) + t.sep + x.children[1].textContent).join(' ; ')),
+      t.sumWinTot(money(winTotal), [...$('#winLines').querySelectorAll('li:not(.tot):not(.info):not(.sub)')].map(x => lc(x.children[0].textContent) + t.sep + x.children[1].textContent).join(' ; '))] : []),
+    ...(rcDem ? [t.noteFailDemR] : []), ...(rcDef ? [t.noteWinDefR] : []),
+    ...(path && path.rows.length > 1 ? ['', t.sumPathHead, ...path.rows.map(x => t.sumPathRow(x.label, fmt(x.fj), fmt(x.dep), fmt(x.gain))), t.sumPathTot(fmt(path.tot.expo), fmt(path.tot.expoMin), fmt(path.tot.expoMax), fmt(path.tot.gain))] : []),
     '',
-    t.notIncl(evShown, vatShown) + ' ' + t.sumEnd,
+    (t.notIncl(evShown, vatShown, !!own) + ' ' + t.sumEnd).trim(),
   ].join('\n');
   $('#txtSum').rows = $('#txtSum').value.split('\n').length + 3;
   $('#rDetails').hidden = false;
 }
 
 // ---------- Événements ----------
-['#domain', '#auth', '#hours', '#canton', '#stage', '#first', '#matter', '#vl', '#reconv', '#extra', '#foreign', '#issue', '#superprov', '#tfIssue', '#mpParty', '#vat', '#abroad', '#hoursCiv', '#evidence', '#nature', '#amp', '#oppRep', '#insured'].forEach(s => { $(s).addEventListener('input', update); $(s).addEventListener('change', update); });
+['#domain', '#auth', '#hours', '#canton', '#inst', '#ptype', '#vdAuth', '#clientAbroad', '#position', '#ownFees', '#pathOn', '#pConcil', '#pInc', '#pIncType', '#pIncN', '#pFirst', '#pFirstType', '#pSecond', '#pSecondType', '#pTF', '#pTfIssue', '#matter', '#vl', '#reconv', '#extra', '#foreign', '#issue', '#tfIssue', '#mpParty', '#vat', '#abroad', '#hoursCiv', '#evidence', '#nature', '#amp', '#oppRep', '#insured'].forEach(s => { $(s).addEventListener('input', update); $(s).addEventListener('change', update); });
 document.querySelectorAll('[data-copy]').forEach(b => b.addEventListener('click', async () => {
   const ta = document.getElementById(b.dataset.copy);
   try { await navigator.clipboard.writeText(ta.value); } catch (e) { ta.select(); try { document.execCommand('copy'); } catch (_) {} }
   b.textContent = T().copied; setTimeout(() => { b.textContent = T().copy; }, 1500);
 }));
 $('#print').addEventListener('click', () => window.print());
-$('#reset').addEventListener('click', () => { $('#domain').value = 'civil'; $('#auth').value = 'vd'; $('#hours').value = 20; $('#canton').value = 'VD'; $('#stage').value = 'ord'; $('#first').value = 'ordsimpl'; $('#matter').value = 'gen'; $('#vl').value = ''; $('#reconv').value = ''; $('#extra').value = 0; $('#foreign').checked = false; $('#issue').value = 'jug'; $('#superprov').checked = false; $('#tfIssue').value = 'fond'; $('#mpParty').value = 'bidder'; $('#vat').checked = false; $('#abroad').checked = false; $('#nature').value = 'pec'; $('#amp').value = 'moy'; $('#oppRep').value = 'avocat'; $('#insured').checked = false; $('#hoursCiv').value = ''; $('#evidence').value = ''; update(); });
+$('#reset').addEventListener('click', () => { $('#domain').value = 'civil'; $('#auth').value = 'vd'; $('#hours').value = 20; $('#canton').value = 'VD'; $('#inst').value = 'first'; ptypeKey = null; renderPtypes(); $('#ptype').value = 'ord'; $('#vdAuth').value = 'auto'; $('#clientAbroad').checked = false; $('#position').value = ''; $('#ownFees').value = ''; $('#pathOn').checked = false; ['#pConcil', '#pInc', '#pFirst', '#pSecond', '#pTF'].forEach(s => { $(s).checked = false; $(s).disabled = false; }); $('#pIncN').value = 1; $('#pFirstType').value = 'ord'; $('#pSecondType').value = 'appel'; $('#pTfIssue').value = 'fond'; $('#matter').value = 'gen'; $('#vl').value = ''; $('#reconv').value = ''; $('#extra').value = 0; $('#foreign').checked = false; $('#issue').value = 'jug'; $('#tfIssue').value = 'fond'; $('#mpParty').value = 'bidder'; $('#vat').checked = false; $('#abroad').checked = false; $('#nature').value = 'pec'; $('#amp').value = 'moy'; $('#oppRep').value = 'avocat'; $('#insured').checked = false; $('#hoursCiv').value = ''; $('#evidence').value = ''; update(); });
 document.querySelectorAll('[data-lang-set]').forEach(b => b.addEventListener('click', () => { LANG = b.dataset.langSet; store.set('lang', LANG); applyLang(); }));
 
 function applyTheme(th) {
@@ -1428,7 +1666,7 @@ function setSource() {
 }
 
 // ---------- Démarrage ----------
-$('#stage').value = 'ord';
+$('#inst').value = 'first';
 const qs = new URLSearchParams(location.search);
 if (qs.get('lang') === 'en' || qs.get('lang') === 'fr') { LANG = qs.get('lang'); store.set('lang', LANG); }
 applyLang();
