@@ -1,6 +1,6 @@
 # Cas de test
 
-Cas vérifiés avec l’outil (version 1.6). À refaire après chaque modification. Sauf mention contraire : procédure civile, partie adverse représentée par un avocat et domiciliée en Suisse (TVA incluse), aucune option. Montants en francs ; « centre » désigne la valeur centrale affichée.
+Cas vérifiés avec l’outil (version 1.8). À refaire après chaque modification. Sauf mention contraire : procédure civile, partie adverse représentée par un avocat et domiciliée en Suisse (TVA incluse), aucune option. Montants en francs ; « centre » désigne la valeur centrale affichée.
 
 Les scripts de test du moteur (129 contrôles) reprennent ces cas et les complètent.
 
@@ -8,8 +8,8 @@ Les scripts de test du moteur (129 contrôles) reprennent ces cas et les complè
 
 | # | Données | Résultat attendu | Point contrôlé |
 |---|---|---|---|
-| 1 | Procédure ordinaire, 80’000 | émolument 7’000 ; avance 3’500 ; dépens 3’405 à 17’026 (centre 8’172) | art. 18 TFJC, art. 4 et 19 TDC, TVA |
-| 2 | Cas 1, partie adverse domiciliée à l’étranger | dépens 3’150 à 15’750 (centre 7’560) | pas de TVA |
+| 1 | Procédure ordinaire, 80’000 | émolument 7’000 ; avance 3’500 ; dépens 3’405 à 17’026 (centre 10’215) | art. 18 TFJC, art. 4 et 19 TDC, TVA |
+| 2 | Cas 1, partie adverse domiciliée à l’étranger | dépens 3’150 à 15’750 (centre 9’450) | pas de TVA |
 | 3 | Appel, 35’300 | émolument 1’353 | HC/2023/60 (art. 62 TFJC) |
 | 4 | Appel, 30’001 | émolument 1’300 | HC/2024/1 |
 | 5 | Procédure ordinaire, travail, 44’866 | émolument 3’500 | réduction de moitié (art. 22 al. 9 TFJC) |
@@ -77,23 +77,38 @@ Les scripts de test du moteur (129 contrôles) reprennent ces cas et les complè
 
 | # | Données | Résultat attendu |
 |---|---|---|
-| 51 | Vaud, conciliation, 80’000, avec deux incidents de sûretés, première instance ordinaire, appel et Tribunal fédéral (jugement au fond) | frais judiciaires 14’990 ; avances successives 11’490 ; dépens 20’647 ; exposition totale environ 35’637 (23’264 à 66’816) |
-| 52 | Vaud, première instance ordinaire, 80’000, avec appel et Tribunal fédéral | exposition totale environ 30’341 ; dépens en cas de succès 17’241 |
-| 53 | Cas 52 à Genève | exposition totale environ 37’361 (appel : 5’000 de frais judiciaires et 7’184 de dépens) |
+| 51 | Vaud, conciliation, 80’000, avec deux incidents de sûretés, première instance ordinaire, appel et Tribunal fédéral (jugement au fond) | frais judiciaires 14’690 ; avances successives 11’190 ; dépens 21’267 ; exposition totale environ 35’957 (23’264 à 66’816) |
+| 52 | Vaud, première instance ordinaire, 80’000, avec appel et Tribunal fédéral | exposition totale environ 30’661 ; dépens en cas de succès 17’861 |
+| 53 | Cas 52 à Genève | exposition totale environ 35’743 (appel : 4’500 de frais judiciaires et 6’466 de dépens) |
 | 54 | Option désactivée | retour à l’étape choisie seule |
 
 ## Situation en cas d’échec et de succès
 
 | # | Données | Échec | Succès |
 |---|---|---|---|
-| 55 | Vaud, procédure ordinaire, 80’000, position non précisée | 15’172 (frais 7’000, dépens 8’172) | 8’172 (dépens à recevoir) |
-| 56 | Cas 55, demandeur, honoraires de 12’000 | 27’172 | 76’172 (80’000 + 8’172 − 12’000) ; part non couverte 3’828 |
-| 57 | Cas 55, défendeur, honoraires de 12’000 | 107’172 (80’000 + 27’172) | −3’828 (8’172 − 12’000) |
-| 58 | Vaud, conciliation avec première instance, appel et Tribunal fédéral, demandeur, honoraires de 40’000 | 71’241 (frais 14’000, dépens 17’241, honoraires 40’000) | 57’241 (80’000 + 17’241 − 40’000) |
+| 55 | Vaud, procédure ordinaire, 80’000, position non précisée | 17’215 (frais 7’000, dépens 10’215) | 10’215 (dépens à recevoir) |
+| 56 | Cas 55, demandeur, honoraires de 12’000 | 29’215 | 78’215 (80’000 + 10’215 − 12’000) ; part non couverte 1’785 |
+| 57 | Cas 55, défendeur, honoraires de 12’000 | 109’215 (80’000 + 29’215) | −1’785 (10’215 − 12’000) |
+| 58 | Vaud, conciliation avec première instance, appel et Tribunal fédéral, demandeur, honoraires de 40’000 | 71’561 (frais 13’700, dépens 17’861, honoraires 40’000) | 57’861 (80’000 + 17’861 − 40’000) |
 | 59 | Vaud, procédure ordinaire, 80’000, demande reconventionnelle de 30’000, honoraires de 12’000, position non précisée | 35’858 (frais 9’500, dépens 14’358, honoraires 12’000) | 2’358 ; note invitant à indiquer la position |
 | 60 | Cas 59, demandeur principal (défendeur reconventionnel) | 65’858*, dont 30’000* de demande reconventionnelle | 82’358 (80’000 + 14’358 − 12’000) ; demande reconventionnelle rejetée |
 | 61 | Cas 59, défendeur principal (demandeur reconventionnel) | 115’858 (80’000 + 35’858) ; demande reconventionnelle rejetée | 32’358* (30’000* + 14’358 − 12’000) |
 | 62 | Conciliation avec première instance ordinaire ajoutée | champ « Demande reconventionnelle » affiché | — |
+
+## Comparaison avec la jurisprudence (recalibrations des versions 1.7 et 1.8)
+
+| # | Données | Résultat attendu | Arrêt |
+|---|---|---|---|
+| 63 | Vaud, procédure ordinaire, 121’697 | dépens centre 14’358 | CREC du 21 juillet 2026 : 12’000 (dépens légèrement réduits) |
+| 64 | Genève, appel, 178’429 | émolument centre 9’000 ; dépens centre 10’096 | ACJC du 5 juin 2024 (C/5443/2021) : 9’000 et 6’000 |
+| 65 | Genève, appel, 270’314 | dépens centre 12’239 | ACJC du 20 avril 2021 (C/16647/2016) : 12’200 |
+| 66 | Genève, appel, 28’866 | émolument centre 1’800 | ACJC du 6 juin 2023 (C/25602/2019) : 1’800 |
+| 67 | Tribunal fédéral, 30’000 | émolument 2’000 ; dépens 2’500 | TF 4A_171/2025 : 2’000 et 2’500 |
+| 68 | Tribunal fédéral, 276’144 | émolument 8’000 ; dépens 9’000 | TF 4A_1/2024 : 8’000 et 9’000 |
+| 69 | Vaud, appel, 322’900 | dépens centre 7’057 | CACI du 12 février 2026 (PT18.026077) : 11’500 |
+| 70 | Vaud, mesures provisionnelles, président du tribunal d’arrondissement | émolument centre 495 | CACI du 14 mai 2024 : 400 |
+
+Le détail de la vérification figure dans [VERIFICATION.md](VERIFICATION.md).
 
 ## Interface
 

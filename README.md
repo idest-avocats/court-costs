@@ -6,11 +6,11 @@ Outil en ligne d’estimation des frais judiciaires, de l’avance de frais et d
 
 > **Aide au calcul uniquement.** Les tarifs laissent une marge d’appréciation au tribunal ; le résultat est une estimation que l’utilisateur doit vérifier. Voir [AVERTISSEMENT.md](AVERTISSEMENT.md).
 
-Version 1.6 (beta), octobre 2026. Historique : [CHANGELOG.md](CHANGELOG.md).
+Version 1.8 (beta), octobre 2026. Historique : [CHANGELOG.md](CHANGELOG.md).
 
 ## Ce que fait l’outil
 
-L’outil estime les frais judiciaires, l’avance exigible, les dépens à verser à la partie adverse en cas d’échec et ceux qui seraient obtenus en cas de succès. Il présente le résultat en deux cadres, exposition en cas d’échec et situation en cas de succès, avec une valeur centrale, une fourchette et la base légale de chaque montant, ainsi qu’un résumé prêt à copier. En option, il tient compte des honoraires estimés de l’avocat de la partie et de sa position de demandeur ou de défendeur, y compris en cas de demande reconventionnelle : le bilan comprend alors le montant des demandes, en supposant une issue identique sur chacune d’elles.
+L’outil estime les frais judiciaires, l’avance exigible, les dépens à verser à la partie adverse en cas d’échec et ceux qui seraient obtenus en cas de succès. Il présente le résultat en deux cadres successifs, l’exposition en cas d’échec puis la situation en cas de succès, avec une valeur centrale, une fourchette et la base légale de chaque montant, ainsi qu’un résumé prêt à copier. En option, il tient compte des honoraires estimés de l’avocat de la partie et de sa position de demandeur ou de défendeur, y compris en cas de demande reconventionnelle : le bilan comprend alors le montant des demandes, en supposant une issue identique sur chacune d’elles.
 
 - **Procédure civile, Vaud et Genève** : conciliation ; en première instance, procédures ordinaire, simplifiée et sommaire, mesures provisionnelles et superprovisionnelles, mémoire préventif, procédure sommaire de poursuite, exécution et incidents (récusation, intervention, sûretés, suspension, décisions incidentes, ordonnances, restitution, irrecevabilité faute d’avance).
 - **Autorité compétente (Vaud)** : en procédure sommaire, pour les mesures provisionnelles et superprovisionnelles, le mémoire préventif et les incidents, l’émolument dépend de l’autorité (juge de paix, président ou tribunal d’arrondissement, Tribunal des baux, Chambre patrimoniale cantonale, Cour civile du Tribunal cantonal).
@@ -23,7 +23,7 @@ Une option permet d’ajouter à l’étape choisie les autres étapes de la pro
 
 L’outil tient compte de la nature de l’affaire (pécuniaire ou non), de la matière (travail, bail, consommation, assurances complémentaires, autres litiges exemptés), de l’issue de la procédure (transaction, retrait, irrecevabilité, renonciation aux débats, décision non motivée), de la demande reconventionnelle, des parties supplémentaires, de l’élection de for, des frais de preuves, de la représentation de la partie adverse et de la TVA sur les dépens.
 
-La correspondance entre les articles des tarifs et l’outil figure dans [CORRESPONDANCE.md](CORRESPONDANCE.md).
+L’estimation centrale correspond à ce que les tribunaux décident le plus souvent pour une cause d’ampleur ordinaire ; la méthode est expliquée dans l’outil et vérifiée sur la jurisprudence dans [VERIFICATION.md](VERIFICATION.md). La correspondance entre les articles des tarifs et l’outil figure dans [CORRESPONDANCE.md](CORRESPONDANCE.md).
 
 ## Ce que l’outil ne couvre pas
 
@@ -47,6 +47,7 @@ id est avocats ne collecte aucune donnée dans le cadre de l’utilisation de l�
 - Bases légales, jurisprudence et choix de calcul : [SOURCES.md](SOURCES.md).
 - Correspondance article par article : [CORRESPONDANCE.md](CORRESPONDANCE.md).
 - Cas de référence : [CAS-DE-TEST.md](CAS-DE-TEST.md).
+- Vérification des estimations sur des arrêts vaudois et genevois : [VERIFICATION.md](VERIFICATION.md).
 
 ## Licence
 

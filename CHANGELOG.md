@@ -1,5 +1,20 @@
 # Historique des versions / Changelog
 
+## 1.8.0 (beta) – octobre 2026
+
+- Recalibration sur un échantillon élargi de décisions vaudoises, genevoises et fédérales ([VERIFICATION.md](VERIFICATION.md)) :
+  - Vaud, dépens de première instance (art. 4 TDC) : position de 50 % de la fourchette jusqu’à 100’000 francs, 35 % jusqu’à 250’000 francs, 15 % au-delà ;
+  - Vaud, dépens d’appel (art. 7 TDC) : 15 % de la fourchette ;
+  - Vaud, procédure sommaire et mesures provisionnelles (art. 28 TFJC) : 15 % de la fourchette devant le juge de paix, le président ou le tribunal d’arrondissement et le Tribunal des baux, 60 % devant la Chambre patrimoniale cantonale et la Cour civile ;
+  - Genève, dépens d’appel : 60 % du barème de l’art. 85 RTFMC ;
+  - Tribunal fédéral : émolument usuel par tranche de valeur litigieuse et dépens égaux à l’émolument plus 500 à 2’000 francs.
+
+## 1.7.0 (beta) – octobre 2026
+
+- Résultat présenté en deux cadres complets, l’un sous l’autre : exposition en cas d’échec (montants, avance, détail par poste ou par étape) puis situation en cas de succès (montants, détail des dépens à recevoir).
+- Nouvelle rubrique « Comment l’estimation est établie », qui explique le choix de la valeur centrale pour chaque tarif.
+- Recalibration sur la jurisprudence ([VERIFICATION.md](VERIFICATION.md)) : dépens vaudois au quart inférieur de la fourchette (au lieu de 35 %) ; émolument d’appel genevois à 90 % du barème du TPI ; dépens d’appel genevois à la moitié du barème de l’art. 85 RTFMC (au lieu des deux tiers).
+
 ## 1.6.0 (beta) – octobre 2026
 
 - Demande reconventionnelle intégrée au bilan : positions « demandeur principal (défendeur reconventionnel) » et « défendeur principal (demandeur reconventionnel) ».

@@ -184,16 +184,16 @@ details.mini ul{margin:6px 0 0;padding-left:18px}
 .kpi small{display:block;font-size:11.5px;color:var(--muted);font-weight:400}
 .excl{font-size:12.5px;color:var(--muted);margin-top:8px}
 table.dc td.ref{white-space:normal;text-align:left;color:var(--muted);font-size:12.5px;min-width:180px}
-.outcomes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:2px 0 10px}
-.outcomes .oc:only-child,.outcomes .oc.fail:has(+ .oc[hidden]){grid-column:1 / -1}
-@media (max-width:1100px){.outcomes{grid-template-columns:1fr}}
-.oc{border:1px solid var(--line);border-radius:10px;padding:10px 12px 8px;background:var(--panel)}
+.oc{border:1px solid var(--line);border-radius:12px;padding:14px 16px 12px;background:var(--panel);margin:0 0 14px}
+.oc .och{font-size:14px;margin:14px 0 6px}
+.oc .kpis{margin-top:10px}
+.oc.win{background:linear-gradient(0deg,var(--panel),var(--panel)),var(--panel)}
 .oc.fail{border-top:4px solid var(--rose)}
 .oc.win{border-top:4px solid var(--turq)}
-.oc .total{font-size:clamp(24px,3vw,30px);margin:2px 0 2px}
+.oc .total{font-size:clamp(28px,3.4vw,38px);margin:2px 0 2px}
 .oc.win .total{color:var(--turq)}
 .oc .range{font-size:12.5px;margin-bottom:4px}
-.oclines{list-style:none;padding:0;margin:4px 0 0;font-size:12.5px}
+.oclines{list-style:none;padding:0;margin:6px 0 0;font-size:13.5px;max-width:560px}
 .oclines li{display:flex;justify-content:space-between;gap:10px;padding:3px 0;border-bottom:1px dotted var(--line)}
 .oclines li span:last-child{white-space:nowrap;font-variant-numeric:tabular-nums}
 .oclines li.tot{font-weight:700;border-bottom:0}
@@ -390,38 +390,41 @@ table.dc tr.main td{font-weight:700}
     </form>
 
     <section class="panel result" aria-live="polite" aria-labelledby="rTitle">
-      <div class="outcomes">
-        <div class="oc fail">
-          <div class="r-label" id="rTitle" data-i18n="rTitle"></div>
-          <div class="total empty" id="rTotal"></div>
-          <div class="range" id="rRange"></div>
-          <ul class="oclines" id="failLines"></ul>
-          <div class="ocnote" id="failNote" hidden></div>
-        </div>
-        <div class="oc win" id="winBox" hidden>
-          <div class="r-label" id="wTitle" data-i18n="wTitle"></div>
-          <div class="total" id="wTotal"></div>
-          <div class="range" id="wRange"></div>
-          <ul class="oclines" id="winLines"></ul>
-          <div class="ocnote" id="winNote" hidden></div>
+      <div class="oc fail">
+        <div class="r-label" id="rTitle" data-i18n="rTitle"></div>
+        <div class="total empty" id="rTotal"></div>
+        <div class="range" id="rRange"></div>
+        <ul class="oclines" id="failLines"></ul>
+        <div class="ocnote" id="failNote" hidden></div>
+        <div class="kpis" id="rKpis" hidden></div>
+        <div id="failDetail" hidden>
+          <h3 class="och" id="hDetail" data-i18n="hDetail"></h3>
+          <div class="tablewrap"><table class="dc" id="rTable"></table></div>
+          <div class="excl" id="excl"></div>
+          <div class="excl" id="pathNoteF" data-i18n="pathNote" hidden></div>
         </div>
       </div>
-      <div class="kpis" id="rKpis"></div>
+      <div class="oc win" id="winBox" hidden>
+        <div class="r-label" id="wTitle" data-i18n="wTitle"></div>
+        <div class="total" id="wTotal"></div>
+        <div class="range" id="wRange"></div>
+        <ul class="oclines" id="winLines"></ul>
+        <div class="ocnote" id="winNote" hidden></div>
+        <h3 class="och" id="hDetailW" data-i18n="hDetailW"></h3>
+        <div class="tablewrap"><table class="dc" id="wTable"></table></div>
+        <div class="excl" id="wExcl"></div>
+      </div>
       <div class="alerts" id="rAlerts"></div>
       <div id="rDetails" hidden>
-        <h2 id="hDetail" data-i18n="hDetail"></h2>
-        <div class="tablewrap"><table class="dc" id="rTable"></table></div>
-        <div class="excl" id="excl"></div>
-        <div id="pathOut" hidden>
-          <h2 data-i18n="hPath"></h2>
-          <div class="tablewrap"><table class="dc" id="pathTable"></table></div>
-          <div class="excl" data-i18n="pathNote"></div>
-        </div>
         <div class="copyblock">
           <div class="cb-head"><h3 data-i18n="hSummary"></h3><button type="button" class="btn small" data-copy="txtSum" data-i18n="copy"></button></div>
           <textarea id="txtSum" readonly></textarea>
         </div>
       </div>
+      <details class="mini">
+        <summary data-i18n="hMethod"></summary>
+        <ul class="rules" id="methodText"></ul>
+      </details>
       <details class="mini">
         <summary data-i18n="hPrinciples"></summary>
         <ul class="rules" id="principles"></ul>
@@ -494,7 +497,8 @@ const Frais = (() => {
   const VD_AUTH_TXT = () => ({ jp: L('juge de paix', 'justice of the peace'), ta: L('président ou tribunal d’arrondissement', 'district court or its president'), tb: L('Tribunal des baux', 'Tenancy Court'), cpc: L('Chambre patrimoniale cantonale', 'Chambre patrimoniale cantonale'), cc: L('Cour civile du Tribunal cantonal', 'Civil Court of the Cantonal Court') });
   function vdSomm(vl, bailC) {
     const a = vdAuth(vl, bailC), T = T28[a];
-    return R(T[0], T[1], L(`art. 28 TFJC, ${VD_AUTH_TXT()[a]}`, `Art. 28 TFJC, ${VD_AUTH_TXT()[a]}`), { auth: a });
+    const pos = a === 'cpc' || a === 'cc' ? 0.6 : 0.15;
+    return R(T[0], T[1], L(`art. 28 TFJC, ${VD_AUTH_TXT()[a]}`, `Art. 28 TFJC, ${VD_AUTH_TXT()[a]}`), { auth: a, mid: Math.round(T[0] + pos * (T[1] - T[0])) });
   }
   const vdSuper = a => ({ jp: 100, ta: 200, tb: 200, cpc: 350, cc: 350 }[a]);
   const vdAppel = vl => fixed(Math.min(50000, (vl <= 30000 ? 600 : 1000) + vl * 0.01), L('art. 62 TFJC', 'Art. 62 TFJC'));
@@ -524,7 +528,9 @@ const Frais = (() => {
     else if (o.nonpec) { [min, max] = second ? (ag ? [75, 17500] : [100, 25000]) : (ag ? [400, 35000] : [600, 50000]); refArt = `${ag ? 14 : 9} al. ${second ? 2 : 1}`; mid = logMid(min, max, o.amp); }
     else {
       const d = ag ? (TDC_AG[key === 'ord' ? 'simpl' : key]) : TDC[key], r = pick(d.t, vl);
-      const [a, b] = r ? [r[1], r[2]] : d.top(vl); min = a; max = Math.max(a, b); refArt = d.ref; mid = min + 0.35 * (max - min);
+      const [a, b] = r ? [r[1], r[2]] : d.top(vl); min = a; max = Math.max(a, b); refArt = d.ref;
+      const pos = key === 'ord' ? (vl <= 100000 ? 0.5 : vl <= 250000 ? 0.35 : 0.15) : key === 'appel' ? 0.15 : 0.25;
+      mid = min + pos * (max - min);
     }
     let how = 'pos';
     if (hours > 0) { const rate = 350 * (vl > 0 && vl <= 30000 ? 0.85 : 1) * (ag ? 0.75 : 1); mid = Math.min(max, Math.max(min, hours * rate)); how = 'hours'; }
@@ -553,8 +559,8 @@ const Frais = (() => {
     if (kind === 'somm') return R(b / 5, b * 2 / 3, L('art. 85 et 88 RTFMC, un cinquième à deux tiers du barème', 'Art. 85 and 88 RTFMC, one fifth to two thirds of the scale'), { mid: b * 2 / 3 });
     if (kind === 'lp') return R(b / 5, b * 2 / 3, L('art. 85 et 89 RTFMC, un cinquième à deux tiers du barème', 'Art. 85 and 89 RTFMC, one fifth to two thirds of the scale'), { mid: b * 2 / 3 });
     if (kind === 'nonfinal') return R(b / 5, b * 2 / 3, L('art. 85 et 87 RTFMC, un cinquième à deux tiers du barème (procédure sans jugement final)', 'Art. 85 and 87 RTFMC, one fifth to two thirds of the scale (no final judgment)'), { mid: b * 2 / 3 });
-    if (kind === 'rev') return R(b / 3, b * 2 / 3, L('art. 85 et 90 RTFMC par analogie (art. 20 al. 4 LaCC)', 'Art. 85 and 90 RTFMC by analogy (Art. 20 para. 4 LaCC)'), { mid: b * 2 / 3 });
-    return R(b / 3, b * 2 / 3, L('art. 85 et 90 RTFMC, réduction d’un à deux tiers', 'Art. 85 and 90 RTFMC, reduced by one third to two thirds'), { mid: b * 2 / 3 });
+    if (kind === 'rev') return R(b / 3, b * 2 / 3, L('art. 85 et 90 RTFMC par analogie (art. 20 al. 4 LaCC)', 'Art. 85 and 90 RTFMC by analogy (Art. 20 para. 4 LaCC)'), { mid: b * 0.6 });
+    return R(b / 3, b * 2 / 3, L('art. 85 et 90 RTFMC, réduction d’un à deux tiers', 'Art. 85 and 90 RTFMC, reduced by one third to two thirds'), { mid: b * 0.6 });
   }
   // Affaires non pécuniaires (art. 86 RTFMC ; art. 20 al. 3 LaCC), avec les réductions des art. 87, 88 et 90 par analogie
   function geDepensNP(kind, a) {
@@ -569,19 +575,20 @@ const Frais = (() => {
   function tfFJ(vl, reduced) {
     if (reduced) return R(200, 1000, L('art. 65 al. 4 LTF', 'Art. 65 para. 4 BGG'), { mid: 600 });
     const r = pick(TF_FJ, vl), span = r[2] - r[1];
-    const mid = vl <= 100000 ? r[1] + 0.8 * span : vl <= 200000 ? r[1] + 0.5 * span : r[1] + 0.1 * span;
+    const TF_MID = [[30000, 2000], [100000, 4000], [200000, 5500], [500000, 8000], [1000000, 10000], [5000000, 15000], [Infinity, 20000]];
+    const mid = Math.min(r[2], Math.max(r[1], TF_MID.find(x => vl <= x[0])[1])); void span;
     return R(r[1], r[2], L('art. 65 al. 3 let. b LTF ; tarif des émoluments judiciaires du TF (RS 173.110.210.1)', 'Art. 65 para. 3 let. b BGG; Federal Supreme Court fee tariff (SR 173.110.210.1)'), { mid });
   }
-  function tfDep(vl) {
+  function tfDep(vl, fee) {
     const T = [[20000, 600, 4000], [50000, 1500, 6000], [100000, 3000, 10000], [500000, 5000, 15000], [1000000, 7000, 22000], [2000000, 8000, 30000], [5000000, 12000, 50000]];
     const r = T.find(x => vl < x[0]);
     const [min, max] = r ? [r[1], r[2]] : [20000, Math.max(20000, vl * 0.01)];
-    return R(min, max, L('art. 4 du règlement sur les dépens devant le TF (RS 173.110.210.3), TVA comprise (art. 12)', 'Art. 4 of the Federal Supreme Court party costs regulation (SR 173.110.210.3), VAT included (Art. 12)'), { mid: r ? min + 0.3 * (max - min) : min * 1.1 });
+    return R(min, max, L('art. 4 du règlement sur les dépens devant le TF (RS 173.110.210.3), TVA comprise (art. 12)', 'Art. 4 of the Federal Supreme Court party costs regulation (SR 173.110.210.3), VAT included (Art. 12)'), { mid: fee ? Math.min(max, Math.max(min, fee + (fee <= 3000 ? 500 : fee <= 9500 ? 1000 : fee <= 20000 ? 2000 : 5000))) : (r ? min + 0.3 * (max - min) : min * 1.1) });
   }
   function tfScenario(vl, issue, reduced, notes, np) {
     const base = np ? rng(200, 5000, L('art. 65 al. 3 let. a LTF (affaire non pécuniaire)', 'Art. 65 para. 3 let. a BGG (non-pecuniary case)'), np.amp) : tfFJ(vl, reduced);
     const avance = R(base.min, base.max, L('art. 62 al. 1 LTF, frais présumés', 'Art. 62 para. 1 BGG, expected costs'), { mid: midOf(base) });
-    let fj = base, dep = np ? rng(600, 18000, L('art. 6 du règlement sur les dépens devant le TF (RS 173.110.210.3), TVA comprise (art. 12)', 'Art. 6 of the Federal Supreme Court party costs regulation (SR 173.110.210.3), VAT included (Art. 12)'), np.amp) : tfDep(vl);
+    let fj = base, dep = np ? rng(600, 18000, L('art. 6 du règlement sur les dépens devant le TF (RS 173.110.210.3), TVA comprise (art. 12)', 'Art. 6 of the Federal Supreme Court party costs regulation (SR 173.110.210.3), VAT included (Art. 12)'), np.amp) : tfDep(vl, midOf(base));
     if (issue === 'art108') { fj = R(200, 500, L('art. 108 LTF, irrecevabilité manifeste (pratique : 200 à 500 francs)', 'Art. 108 BGG, manifest inadmissibility (practice: CHF 200 to 500)'), { mid: 400 }); dep = zero(L('aucun dépens, la partie adverse n’ayant pas été invitée à répondre', 'no party costs, the opposing party not having been invited to respond')); notes.push('tf108'); }
     else if (issue === 'exam') { fj = R(1000, Math.min(5000, Math.max(1000, base.max)), L('irrecevabilité après examen (pratique : 1’000 à 5’000 francs)', 'inadmissibility after examination (practice: CHF 1,000 to 5,000)'), { mid: 2000 }); dep = zero(L('en règle générale aucun dépens', 'as a rule no party costs')); notes.push('tfExam'); }
     return { fj, dep, avance };
@@ -759,7 +766,7 @@ const Frais = (() => {
       else if (st === 'memo') fj = R(100, 500, L('art. 27 RTFMC', 'Art. 27 RTFMC'), { mid: 500 });
       else if (st === 'lp') fj = oelp48(vl);
       else if (first === 'lp') fj = oelp61(vl);
-      else { const sc = first === 'ordsimpl' ? (np ? g18() : ge17(vl)) : g26(); const art = st === 'appel' ? (first === 'prov' ? 37 : 35) : (first === 'prov' ? 40 : 38); fj = R(sc.min, sc.max, L(`art. ${art} RTFMC, renvoyant à l’${sc.ref}`, `Art. ${art} RTFMC, referring to ${sc.ref}`), { mid: sc.mid }); }
+      else { const sc = first === 'ordsimpl' ? (np ? g18() : ge17(vl)) : g26(); const art = st === 'appel' ? (first === 'prov' ? 37 : 35) : (first === 'prov' ? 40 : 38); fj = R(sc.min, sc.max, L(`art. ${art} RTFMC, renvoyant à l’${sc.ref}`, `Art. ${art} RTFMC, referring to ${sc.ref}`), { mid: first === 'ordsimpl' && !np ? Math.max(sc.min, Math.round(sc.mid * 0.9 / 100) * 100) : sc.mid }); }
       if (st === 'prov' && p.superprov) fj = mapR(fj, x => x, fj.ref + L(' ; mesures superprovisionnelles : +25 % selon le tarif interne du TPI', '; ex parte measures: +25% under the internal tariff'), { mid: midOf(fj) * 1.25 });
     }
     const cantonal = !(st === 'lp' || (st === 'recours' && first === 'lp'));
@@ -984,6 +991,7 @@ const STR = {
     rcInfo: 'Demande reconventionnelle : le bilan suppose une issue identique sur les deux demandes, soit un échec ou un succès complet. En cas d’issue partagée, les frais et les dépens sont répartis selon le sort de chaque demande (art. 106 al. 2 CPC), ce que l’outil ne calcule pas.',
     rcInfoNoPos: 'Demande reconventionnelle : elle est prise en compte dans les frais et les dépens, mais pas dans le bilan. Indiquez la position de votre client pour l’y intégrer.',
     lbOwnFees: 'Honoraires estimés de votre propre avocat (CHF, facultatif)', hintOwnFees: 'Pour l’étape choisie ou, si d’autres étapes sont incluses, pour l’ensemble de la procédure. Ils restent à votre charge en cas d’échec ; en cas de succès, les dépens obtenus n’en couvrent souvent qu’une partie.',
+    lnAv: 'Avance de frais à verser au départ (restituée en cas de succès)', lnAvMulti: 'Avances successives (restituées en cas de succès)',
     lnFJ: 'Frais judiciaires', lnDepAdv: 'Dépens de la partie adverse', lnEv: 'Frais de preuves', lnOwn: 'Honoraires de votre avocat', lnCost: 'Coût total de la procédure', lnClaimPay: 'Montant de la demande à payer', lnTotalPay: 'Total à votre charge',
     lnDepRecv: 'Dépens à recevoir', lnFJwin: 'Frais judiciaires', lnFJwinV: 'à la charge de la partie adverse', lnUncov: 'Part de vos honoraires non couverte', lnClaimGet: 'Montant obtenu (valeur litigieuse)', lnClaimRej: 'Demande rejetée', lnClaimRejV: 'aucun montant à payer', lnNetDem: 'Montant net obtenu', lnNetOther: 'Solde net',
     allStages: '(ensemble des étapes)', rangeShort: (a, b) => `fourchette des frais et dépens : CHF ${a} à ${b}`, rangeCap: b => `frais et dépens jusqu’à CHF ${b}`,
@@ -992,7 +1000,17 @@ const STR = {
     sumOwn: x => `Honoraires estimés de votre propre avocat : CHF ${x}.`, sumFailTot: (x, d) => `En cas d’échec, total à votre charge : environ CHF ${x} (${d}).`, sumWinTot: (x, d) => `En cas de succès : environ ${x} (${d}).`,
     lbPathOn: 'Inclure d’autres étapes de la procédure', hintPath: 'Additionne les étapes cochées, chacune menée jusqu’au jugement, pour estimer le coût d’une procédure conduite jusqu’au bout. L’étape choisie plus haut est toujours comprise ; les autres options (matière, parties, représentation, TVA) valent pour toutes les étapes.',
     lbPInc: 'Incidents de procédure', lbPIncType: 'Type d’incident', lbPIncN: 'Nombre d’incidents', lbPFirstType: 'Type de procédure en première instance', lbPSecond: 'Deuxième instance (appel ou recours)', lbPSecondType: 'Voie de droit', lbPTfIssue: 'Issue devant le Tribunal fédéral',
-    hDetailMain: 'Détail de l’étape choisie', hPath: 'Ensemble de la procédure', thStep: 'Étape', thFJc: 'Frais judiciaires', thAvc: 'Avance', thDepL: 'Dépens (échec)', thExpoL: 'Exposition (échec)', thGainW: 'Dépens (succès)', rowTotal: 'Total', mainTag: 'étape choisie',
+    hDetailMain: 'Détail par étape', hPath: 'Ensemble de la procédure', hDetailW: 'Détail en cas de succès', rowFJwin: 'Frais judiciaires', rowFJwinV: 'à la charge de la partie adverse ; votre avance vous est restituée (art. 111 CPC)', rowGainTot: 'Dépens à recevoir',
+    hMethod: 'Comment l’estimation est établie',
+    method: [
+      'Les tarifs fixent souvent une fourchette. L’outil affiche le minimum, le maximum et une estimation centrale, qui correspond à ce que les tribunaux décident le plus souvent pour une cause d’ampleur ordinaire. Le tribunal peut s’écarter de cette estimation, dans les limites du tarif, selon l’importance de la cause et le travail effectué.',
+      'Vaud, frais judiciaires : le TFJC fixe en général un montant précis selon la valeur litigieuse (procédures ordinaire et simplifiée, appel, recours) ; l’estimation est ce montant, que les arrêts examinés appliquent tel quel. Lorsque le tarif ne donne qu’une fourchette (procédure sommaire, mesures provisionnelles, art. 28 TFJC), l’estimation se place à 15 % de la fourchette devant le juge de paix, le président ou le tribunal d’arrondissement et le Tribunal des baux, et à 60 % devant la Chambre patrimoniale cantonale et la Cour civile, conformément aux montants relevés.',
+      'Genève, frais judiciaires : le RTFMC prévoit des fourchettes très larges ; l’estimation reprend le tarif interne d’avances du Tribunal de première instance, qui sert de référence en pratique. En appel, les arrêts de la Cour de justice examinés retiennent en médiane 90 % de ce barème : l’outil applique ce rapport.',
+      'Vaud, dépens : en procédure ordinaire, l’estimation se place à 50 % de la fourchette du TDC jusqu’à 100’000 francs, à 35 % jusqu’à 250’000 francs et à 15 % au-delà, les arrêts examinés montrant que le juge s’écarte du haut de la fourchette lorsque la valeur litigieuse augmente plus vite que le travail ; en appel, à 15 % de la fourchette ; ailleurs, à 25 %. S’y ajoutent les débours (5 % en première instance, 2 % en deuxième instance) et la TVA. Si les heures d’avocat sont indiquées, l’outil les retient à 350 francs l’heure, dans les limites du tarif.',
+      'Genève, dépens : l’art. 85 RTFMC donne un montant précis selon la valeur litigieuse, que le tribunal peut augmenter ou diminuer de 10 % ; l’estimation est ce montant, plus 3 % de débours et la TVA. En appel, l’art. 90 RTFMC prévoit une réduction d’un à deux tiers : l’estimation retient 60 % du barème, proche de la médiane des arrêts examinés.',
+      'Tribunal fédéral : l’émolument suit les montants usuels selon la valeur litigieuse (2’000 francs jusqu’à 30’000 francs, 4’000 jusqu’à 100’000, 5’500 jusqu’à 200’000, 8’000 jusqu’à 500’000, 10’000 jusqu’à 1 million, 15’000 jusqu’à 5 millions et 20’000 au-delà) ; les dépens le dépassent en règle générale de 500 à 2’000 francs. Marchés publics : les estimations reprennent les montants observés dans la jurisprudence citée dans les sources. Affaires non pécuniaires et incidents : faute de pratique publiée suffisante, l’estimation suit une convention (ampleur de la cause, bas de la fourchette pour les incidents).',
+      'La vérification sur des arrêts vaudois et genevois est décrite dans le fichier VERIFICATION.md du dépôt.',
+    ], thStep: 'Étape', thFJc: 'Frais judiciaires', thAvc: 'Avance', thDepL: 'Dépens (échec)', thExpoL: 'Exposition (échec)', thGainW: 'Dépens (succès)', rowTotal: 'Total', mainTag: 'étape choisie',
     rTitlePath: 'Exposition en cas d’échec, ensemble des étapes', rangePath: (a, b) => `Fourchette : CHF ${a} à ${b} (toutes les étapes retenues)`, kFJt: 'Frais judiciaires (total)', kAvt: 'Avances successives', kDept: 'Dépens (total)', kGaint: 'Dépens en cas de succès (total)',
     pathNote: 'Hypothèse : échec, respectivement succès, à chaque étape, chacune menée jusqu’au jugement. Les avances sont exigées successivement, étape par étape. La valeur litigieuse est reprise à chaque étape ; en deuxième instance et devant le Tribunal fédéral, seule compte la valeur des prétentions qui restent litigieuses.',
     stepConcil: 'Conciliation', stepFirst: t => `Première instance : ${t}`, stepInc: (t, n) => `Incident : ${t}${n > 1 ? ' (×' + n + ')' : ''}`, stepSecond: t => t, stepTF: t => `Tribunal fédéral : ${t}`,
@@ -1203,6 +1221,7 @@ const STR = {
     rcInfo: 'Counterclaim: the balance assumes the same outcome on both claims, i.e. complete failure or complete success. If the outcome is mixed, fees and costs are allocated according to the outcome of each claim (Art. 106 para. 2 CPC), which the tool does not calculate.',
     rcInfoNoPos: 'Counterclaim: it is taken into account in fees and party costs, but not in the balance. Enter your client’s position to include it.',
     lbOwnFees: 'Estimated fees of your own lawyer (CHF, optional)', hintOwnFees: 'For the selected stage or, if other stages are included, for the proceedings as a whole. They remain payable if the case is lost; if it is won, the party costs obtained often cover only part of them.',
+    lnAv: 'Advance on costs payable at the outset (refunded if successful)', lnAvMulti: 'Successive advances (refunded if successful)',
     lnFJ: 'Court fees', lnDepAdv: 'Opposing party’s costs', lnEv: 'Costs of evidence', lnOwn: 'Your lawyer’s fees', lnCost: 'Total cost of the proceedings', lnClaimPay: 'Amount of the claim to pay', lnTotalPay: 'Total payable',
     lnDepRecv: 'Party costs to be received', lnFJwin: 'Court fees', lnFJwinV: 'borne by the opposing party', lnUncov: 'Part of your fees not covered', lnClaimGet: 'Amount obtained (amount in dispute)', lnClaimRej: 'Claim dismissed', lnClaimRejV: 'nothing to pay', lnNetDem: 'Net amount obtained', lnNetOther: 'Net balance',
     allStages: '(all stages)', rangeShort: (a, b) => `range of fees and costs: CHF ${a} to ${b}`, rangeCap: b => `fees and costs up to CHF ${b}`,
@@ -1211,7 +1230,17 @@ const STR = {
     sumOwn: x => `Estimated fees of your own lawyer: CHF ${x}.`, sumFailTot: (x, d) => `If the case is lost, total payable: approximately CHF ${x} (${d}).`, sumWinTot: (x, d) => `If the case is won: approximately ${x} (${d}).`,
     lbPathOn: 'Include other stages of the proceedings', hintPath: 'Adds up the stages ticked, each taken to judgment, to estimate the cost of proceedings pursued to the end. The stage selected above is always included; the other options (subject matter, parties, representation, VAT) apply to all stages.',
     lbPInc: 'Incidental matters', lbPIncType: 'Type of incidental matter', lbPIncN: 'Number of incidental matters', lbPFirstType: 'First-instance procedure', lbPSecond: 'Second instance (appeal or objection)', lbPSecondType: 'Remedy', lbPTfIssue: 'Outcome before the Federal Supreme Court',
-    hDetailMain: 'Breakdown of the selected stage', hPath: 'Proceedings as a whole', thStep: 'Stage', thFJc: 'Court fees', thAvc: 'Advance', thDepL: 'Party costs (lost)', thExpoL: 'Exposure (lost)', thGainW: 'Party costs (won)', rowTotal: 'Total', mainTag: 'selected stage',
+    hDetailMain: 'Breakdown by stage', hPath: 'Proceedings as a whole', hDetailW: 'Breakdown if the case is won', rowFJwin: 'Court fees', rowFJwinV: 'borne by the opposing party; your advance is refunded (Art. 111 CPC)', rowGainTot: 'Party costs to be received',
+    hMethod: 'How the estimate is established',
+    method: [
+      'Tariffs often set a range. The tool shows the minimum, the maximum and a central estimate, which corresponds to what courts most often decide for a case of ordinary scale. The court may depart from it, within the tariff, depending on the importance of the case and the work done.',
+      'Vaud, court fees: the TFJC generally sets a precise amount according to the amount in dispute (ordinary and simplified procedures, appeal, objection); the estimate is that amount, which the judgments reviewed apply as such. Where the tariff only gives a range (summary procedure, interim measures, Art. 28 TFJC), the estimate is placed at 15% of the range before the justice of the peace, the district court or its president and the Tenancy Court, and at 60% before the Chambre patrimoniale cantonale and the Civil Court, in line with the amounts observed.',
+      'Geneva, court fees: the RTFMC provides very wide ranges; the estimate uses the internal advance tariff of the Court of First Instance, which serves as a reference in practice. On appeal, the Court of Justice judgments reviewed apply a median of 90% of that scale: the tool applies that ratio.',
+      'Vaud, party costs: in ordinary proceedings, the estimate is placed at 50% of the TDC range up to CHF 100,000, at 35% up to CHF 250,000 and at 15% above, the judgments reviewed showing that courts move away from the top of the range as the amount in dispute grows faster than the work; on appeal, at 15% of the range; elsewhere, at 25%. Disbursements (5% at first instance, 2% at second instance) and VAT are added. If lawyer hours are entered, the tool uses them at CHF 350 per hour, within the tariff.',
+      'Geneva, party costs: Art. 85 RTFMC gives a precise amount according to the amount in dispute, which the court may increase or decrease by 10%; the estimate is that amount, plus 3% disbursements and VAT. On appeal, Art. 90 RTFMC provides a reduction of one third to two thirds: the estimate uses 60% of the scale, close to the median of the judgments reviewed.',
+      'Federal Supreme Court: the fee follows the usual amounts according to the amount in dispute (CHF 2,000 up to CHF 30,000, 4,000 up to 100,000, 5,500 up to 200,000, 8,000 up to 500,000, 10,000 up to 1 million, 15,000 up to 5 million and 20,000 above); party costs generally exceed it by CHF 500 to 2,000. Public procurement: the estimates use amounts observed in the case law cited in the sources. Non-pecuniary cases and incidental matters: in the absence of sufficient published practice, the estimate follows a convention (scale of the case, lower end of the range for incidental matters).',
+      'The check against Vaud and Geneva judgments is described in the VERIFICATION.md file of the repository.',
+    ], thStep: 'Stage', thFJc: 'Court fees', thAvc: 'Advance', thDepL: 'Party costs (lost)', thExpoL: 'Exposure (lost)', thGainW: 'Party costs (won)', rowTotal: 'Total', mainTag: 'selected stage',
     rTitlePath: 'Exposure if the case is lost, all stages', rangePath: (a, b) => `Range: CHF ${a} to ${b} (all stages included)`, kFJt: 'Court fees (total)', kAvt: 'Successive advances', kDept: 'Party costs (total)', kGaint: 'Party costs if successful (total)',
     pathNote: 'Assumption: the case is lost, or won, at every stage, each taken to judgment. Advances are required successively, stage by stage. The amount in dispute is used at each stage; at second instance and before the Federal Supreme Court, only the claims still in dispute count.',
     stepConcil: 'Conciliation', stepFirst: t => `First instance: ${t}`, stepInc: (t, n) => `Incidental matter: ${t}${n > 1 ? ' (×' + n + ')' : ''}`, stepSecond: t => t, stepTF: t => `Federal Supreme Court: ${t}`,
@@ -1430,6 +1459,7 @@ function applyLang() {
 let lastDomain = null;
 function renderPrinciples() {
   const t = T(), mp = $('#domain').value === 'mp';
+  $('#methodText').innerHTML = t.method.map(p => `<li>${p}</li>`).join('');
   $('#principles').innerHTML = (mp ? t.principlesMP : t.principles).map(p => `<li>${p}</li>`).join('');
   lastDomain = $('#domain').value;
 }
@@ -1539,14 +1569,14 @@ function update() {
   const alerts = [];
   if (!np && (!(vl >= 0) || $('#vl').value === '')) {
     $('#rTotal').className = 'total empty'; $('#rTotal').textContent = t.emptyTotal;
-    $('#rRange').textContent = ''; $('#rKpis').innerHTML = ''; $('#rAlerts').innerHTML = ''; $('#rDetails').hidden = true;
+    $('#rRange').textContent = ''; $('#rKpis').innerHTML = ''; $('#rAlerts').innerHTML = ''; $('#rDetails').hidden = true; $('#failDetail').hidden = true;
     $('#winBox').hidden = true; $('#failLines').innerHTML = '';
     return;
   }
   const r = mp ? Frais.computeMP(p) : Frais.compute(p);
   if (r.error) {
     $('#rTotal').className = 'total empty'; $('#rTotal').textContent = '—';
-    $('#rRange').textContent = ''; $('#rKpis').innerHTML = ''; $('#rDetails').hidden = true;
+    $('#rRange').textContent = ''; $('#rKpis').innerHTML = ''; $('#rDetails').hidden = true; $('#failDetail').hidden = true;
     $('#winBox').hidden = true; $('#failLines').innerHTML = '';
     $('#rAlerts').innerHTML = `<div class="alert warn">${t.n[r.error]}</div>`;
     return;
@@ -1569,7 +1599,8 @@ function update() {
   $('#failLines').innerHTML = li(t.lnFJ, money(S.fj)) + li(t.lnDepAdv, money(S.dep)) + (S.ev ? li(t.lnEv, money(S.ev)) : '') + (own ? li(t.lnOwn, money(own)) : '')
     + ((own || S.ev) && (pos === 'def' || rcDem) ? li(t.lnCost, money(S.costs + own), 'sub') : '') + (pos === 'def' && claim ? li(t.lnClaimPay, money(claim)) : '')
     + (rcDem ? li(t.lnRcPay + ' *', money(rc)) : '') + (rcDef ? li(t.lnRcRejGet, t.lnRcRejGetV, 'info') : '')
-    + li(pos === 'def' || rcDem ? t.lnTotalPay + (rcDem ? ' *' : '') : t.lnCost, money(failTotal), 'tot');
+    + li(pos === 'def' || rcDem ? t.lnTotalPay + (rcDem ? ' *' : '') : t.lnCost, money(failTotal), 'tot')
+    + li(multi ? t.lnAvMulti : t.lnAv, (multi ? '' : '≈ ') + 'CHF ' + fmt(multi ? path.tot.av : r.avMid), 'info');
   $('#failNote').hidden = !rcDem; $('#failNote').textContent = rcDem ? t.noteFailDemR : '';
   const winTotal = (pos === 'dem' ? claim : 0) + S.gain - own + (rcDef ? rc : 0);
   $('#winBox').hidden = false;
@@ -1586,13 +1617,19 @@ function update() {
   const kt = (lab, v) => `<span class="kpi">${lab}<b>CHF ${fmt(v)}</b></span>`;
   $('#rKpis').innerHTML = multi ? kt(t.kFJt, path.tot.fj) + kt(t.kAvt, path.tot.av) + kt(t.kDept, path.tot.dep)
     : kv(t.kFJ, r.fj, r.fjMid) + kv(t.kAv, r.avance, r.avMid, '≈') + kv(t.kDep, r.dep, r.depMid);
-  $('#pathOut').hidden = !(path && path.rows.length > 1);
-  $('#hDetail').textContent = path && path.rows.length > 1 ? t.hDetailMain : t.hDetail;
-  if (path && path.rows.length > 1) {
-    $('#pathTable').innerHTML = `<thead><tr><th>${t.thStep}</th><th>${t.thFJc}</th><th>${t.thAvc}</th><th>${t.thDepL}</th><th>${t.thExpoL}</th><th>${t.thGainW}</th></tr></thead><tbody>`
-      + path.rows.map(x => `<tr class="${x.main ? 'main' : ''}"><td>${x.label}${x.main ? ' <span class="muted">(' + t.mainTag + ')</span>' : ''}</td><td>${fmt(x.fj)}</td><td>${fmt(x.av)}</td><td>${fmt(x.dep)}</td><td>${fmt(x.fj + x.dep + x.ev)}</td><td>${fmt(x.gain)}</td></tr>`).join('')
-      + `<tr class="sum"><td>${t.rowTotal}</td><td>${fmt(path.tot.fj)}</td><td>${fmt(path.tot.av)}</td><td>${fmt(path.tot.dep)}</td><td>${fmt(path.tot.expo)}</td><td>${fmt(path.tot.gain)}</td></tr></tbody>`;
+  $('#hDetail').textContent = multi ? t.hDetailMain : t.hDetail;
+  $('#pathNoteF').hidden = !multi;
+  const stepLab = x => `${x.label}${x.main ? ' <span class="muted">(' + t.mainTag + ')</span>' : ''}`;
+  if (multi) {
+    $('#wTable').innerHTML = `<thead><tr><th>${t.thStep}</th><th>${t.rowGainTot}</th></tr></thead><tbody>`
+      + path.rows.map(x => `<tr class="${x.main ? 'main' : ''}"><td>${stepLab(x)}</td><td>${fmt(x.gain)}</td></tr>`).join('')
+      + `<tr class="sum"><td>${t.rowTotal}</td><td>${fmt(path.tot.gain)}</td></tr></tbody>`;
+  } else {
+    $('#wTable').innerHTML = `<thead><tr><th>${t.thItem}</th><th>${t.thMin}</th><th>${t.thMid}</th><th>${t.thMax}</th><th style="text-align:left">${t.thRef}</th></tr></thead><tbody>`
+      + `<tr><td>${t.rowGainTot}</td><td>${fmt(r.gain.min)}</td><td>${fmt(r.gainMid)}</td><td>${fmt(r.gain.max)}</td><td class="ref">${r.gain.ref}</td></tr>`
+      + `<tr><td>${t.rowFJwin}</td><td colspan="4" class="ref" style="text-align:left">${t.rowFJwinV}</td></tr></tbody>`;
   }
+  $('#wExcl').textContent = own ? '' : t.notIncl(true, true, false);
   $('#rAlerts').innerHTML = alerts.map(x => `<div class="alert ${x.lvl}">${x.html}</div>`).join('');
   const vatShown = tf || (mp ? p.vat : !p.abroad), evShown = !!r.evidence;
   $('#excl').textContent = (t.notIncl(evShown, vatShown, !!own) + (mp || stage === 'tf' ? '' : ' ' + t.art111)).trim();
@@ -1604,8 +1641,10 @@ function update() {
     + (r.evidence ? row(t.rowEv, r.evidence, r.evidence, r.evidence, t.refEv) : '')
     + row(t.rowAv, r.avance.min, r.avMid, r.avance.max, r.avance.ref, r.avance.noMin)
     + row(depLabel, r.dep.min, r.depMid, r.dep.max, r.dep.ref)
-    + `<tr class="sum"><td>${t.rowExpo}</td><td>${r.capOnly ? t.noMinCell : fmt(r.expoMin)}</td><td>${fmt(r.expoMid)}</td><td>${fmt(r.expoMax)}</td><td></td></tr>`
-    + `<tr class="sum"><td>${t.rowGain}</td><td>${fmt(r.gain.min)}</td><td>${fmt(r.gainMid)}</td><td>${fmt(r.gain.max)}</td><td class="ref">${r.gain.ref}</td></tr></tbody>`;
+    + `<tr class="sum"><td>${t.rowExpo}</td><td>${r.capOnly ? t.noMinCell : fmt(r.expoMin)}</td><td>${fmt(r.expoMid)}</td><td>${fmt(r.expoMax)}</td><td></td></tr></tbody>`;
+  if (multi) $('#rTable').innerHTML = `<thead><tr><th>${t.thStep}</th><th>${t.thFJc}</th><th>${t.thAvc}</th><th>${t.thDepL}</th><th>${t.thExpoL}</th></tr></thead><tbody>`
+    + path.rows.map(x => `<tr class="${x.main ? 'main' : ''}"><td>${stepLab(x)}</td><td>${fmt(x.fj)}</td><td>${fmt(x.av)}</td><td>${fmt(x.dep)}</td><td>${fmt(x.fj + x.dep + x.ev)}</td></tr>`).join('')
+    + `<tr class="sum"><td>${t.rowTotal}</td><td>${fmt(path.tot.fj)}</td><td>${fmt(path.tot.av)}</td><td>${fmt(path.tot.dep)}</td><td>${fmt(path.tot.expo)}</td></tr></tbody>`;
 
   const cantonName = $('#canton').selectedOptions[0].textContent;
   const amt = (rg, mid) => rg.max === 0 ? t.none : rg.min === rg.max ? `CHF ${fmt(rg.min)}` : t.amtMid(fmt(mid), rg.noMin ? null : fmt(rg.min), fmt(rg.max));
@@ -1634,7 +1673,7 @@ function update() {
     (t.notIncl(evShown, vatShown, !!own) + ' ' + t.sumEnd).trim(),
   ].join('\n');
   $('#txtSum').rows = $('#txtSum').value.split('\n').length + 3;
-  $('#rDetails').hidden = false;
+  $('#rDetails').hidden = false; $('#failDetail').hidden = false;
 }
 
 // ---------- Événements ----------

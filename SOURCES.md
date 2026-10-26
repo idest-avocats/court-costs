@@ -1,6 +1,6 @@
 # Sources
 
-© 2026 id est avocats Sàrl ; texte sous licence [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/deed.fr). Version 1.4 (beta), textes consultés en octobre 2026.
+© 2026 id est avocats Sàrl ; texte sous licence [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/deed.fr). Version 1.8 (beta), textes consultés en octobre 2026.
 
 La correspondance article par article figure dans [CORRESPONDANCE.md](CORRESPONDANCE.md).
 
@@ -76,10 +76,10 @@ La correspondance article par article figure dans [CORRESPONDANCE.md](CORRESPOND
 
 ## Choix de calcul
 
-- **Valeur centrale** : Vaud, montant fixe du TFJC lorsqu’il existe ; Genève, tarif interne du Tribunal de première instance ; Tribunal fédéral et marchés publics, valeurs tirées de la jurisprudence ci-dessus.
+- **Valeur centrale** : Vaud, montant fixe du TFJC lorsqu’il existe ; en procédure sommaire (art. 28 TFJC), 15 % de la fourchette devant le juge de paix, le président ou le tribunal d’arrondissement et le Tribunal des baux, 60 % devant la Chambre patrimoniale et la Cour civile ; Genève, tarif interne du Tribunal de première instance, à 90 % en appel ; Tribunal fédéral, émolument usuel par tranche (2’000 francs jusqu’à 30’000 francs, 4’000 jusqu’à 100’000, 5’500 jusqu’à 200’000, 8’000 jusqu’à 500’000, 10’000 jusqu’à 1 million, 15’000 jusqu’à 5 millions, 20’000 au-delà) et dépens égaux à l’émolument plus 500 à 2’000 francs ; marchés publics, valeurs tirées de la jurisprudence. Vérification : [VERIFICATION.md](VERIFICATION.md).
 - **Fourchettes sans référence** (affaires non pécuniaires, incidents) : valeur centrale placée sur une échelle logarithmique selon l’ampleur choisie (10 %, 30 % ou 55 % de l’écart). Il s’agit d’une convention de l’outil.
-- **Dépens vaudois** : 35 % de la fourchette du TDC, ou heures saisies multipliées par 350 francs (moins 15 % jusqu’à 30’000 francs), bornées par le tarif ; débours de 5 % en première instance et 2 % en deuxième instance ; TVA de 8,1 % sur le total.
-- **Dépens genevois** : barème de l’art. 85 RTFMC, plus ou moins 10 %, réduit selon les art. 87 à 90 ; débours de 3 % ; TVA de 8,1 % sur le défraiement.
+- **Dépens vaudois** : procédure ordinaire, 50 % de la fourchette du TDC jusqu’à 100’000 francs, 35 % jusqu’à 250’000 francs, 15 % au-delà ; appel, 15 % ; autres procédures, 25 % (pratique observée, voir VERIFICATION.md) ; ou heures saisies multipliées par 350 francs (moins 15 % jusqu’à 30’000 francs), bornées par le tarif ; débours de 5 % en première instance et 2 % en deuxième instance ; TVA de 8,1 % sur le total.
+- **Dépens genevois** : barème de l’art. 85 RTFMC, plus ou moins 10 % ; en procédure sommaire et non finale, deux tiers du barème (art. 87 et 88) ; en appel, 60 % du barème, dans la réduction de l’art. 90 (pratique observée) ; débours de 3 % ; TVA de 8,1 % sur le défraiement.
 - **TVA** : incluse par défaut en procédure civile cantonale, sauf partie adverse domiciliée à l’étranger ; comprise dans les dépens du Tribunal fédéral ; en option en marchés publics.
 - **Incidents** : dépens par analogie avec la procédure sommaire (Vaud) et l’art. 87 RTFMC (Genève), valeur centrale au bas de la fourchette.
 - **Arrondis** : émoluments vaudois arrondis au franc inférieur (art. 4 al. 1 TFJC) ; autres montants arrondis au franc à l’affichage.
